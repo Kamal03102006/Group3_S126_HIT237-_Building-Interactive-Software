@@ -16,3 +16,11 @@ SECTION 1: Terms and Conditions of group work
 5) Conflict Resolution - If disagreements occur, the group will discuss the issue respectfully and attempt to resolve it. If unresolved, the issue will be documented and teaching team may be contacted for guidance.
 6) Academic Integrity and Ethical Use of AI - All work must comply with the academic integrity policies of Charles Darwin University. AI- generated content must be reviewed and understood by all team members and AI should support learning rather than critical thinking. If AI- generated code is unclear or incorrect, the team will review and revise it before integrating it into the project.
 7) Contract Amendments - This contract may be updated if circumstances change during the semester. Any amendment must be discussed during a group meeting and agreed upon by all members. Changes must be recorded as a new commit in the Github repository. This ensures the contract remains a living document.
+
+SECTION 2: Milestones and Checkpoints
+1) Milestone 1 - Project Setup (Create shared GitHub repository, write and submit the group contract that is Assessment 1, set up communication tools like Microsoft Teams, GitHub Issues)
+2) Milestone 2 - Research & System Design (Research housing challenges in remote communities, define system requirements and features, create Entity Relationship Diagram (ERD), create initial class diagram, identify Django design philosophies and patterns to implement)
+3) Milestone 3 - Django Development (Create Django project and app structure, implement models and relationships, implement Django QuerySet APIs, develop class-based views, apply object-oriented design principles)
+4) Milestone 4 - Architectural Decision Record (ADR) Development (Create ADR Markdown file in repository, document key architectural decisions, record alternatives considered and rationale, add code references for implemented decisions)
+5) Milestone 5 - Assessment 2 Final Review and Submission (Ensure Django application runs correctly, update group contract and project plan, upload ADR document, prepare supplementary materials like ERD, diagrams etc)
+6) 
