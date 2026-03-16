@@ -23,8 +23,11 @@ SECTION 2: Milestones and Checkpoints
 3) Milestone 3 - Django Development (Create Django project and app structure, implement models and relationships, implement Django QuerySet APIs, develop class-based views, apply object-oriented design principles)
 4) Milestone 4 - Architectural Decision Record (ADR) Development (Create ADR Markdown file in repository, document key architectural decisions, record alternatives considered and rationale, add code references for implemented decisions)
 5) Milestone 5 - Assessment 2 Final Review and Submission (Ensure Django application runs correctly, update group contract and project plan, upload ADR document, prepare supplementary materials like ERD, diagrams etc)
+6) 
  Week 10- Advanced Development / Refinement ( Refine Refine system based on feedback, Implement additional features
+
 week 12- Final Testing & Documentation (Assessment 4) (Complete final system testing, need to prepare final documentation and presentation.)
+
 Week 13-  Final submission  (Submit Assessment 4/ Ensure GitHub report is final and accessible).
 
 Task Breakdown
