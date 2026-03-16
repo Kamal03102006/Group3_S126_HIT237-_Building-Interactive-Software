@@ -26,6 +26,8 @@ SECTION 2: Milestones and Checkpoints
  Week 10- Advanced Development / Refinement ( Refine Refine system based on feedback, Implement additional features
 week 12- Final Testing & Documentation (Assessment 4) (Complete final system testing, need to prepare final documentation and presentation.)
 Week 13-  Final submission  (Submit Assessment 4/ Ensure GitHub report is final and accessible).
+
+
 Task Breakdown
 Member 1- Frontend developement and user interface design( Member 1 is responsible for everyting the user interacts with visually. They need to do designing and implementing the website or application layout, creating forms,buttons, menus, and pages, interact with the system smoothly and efficiently)
 Member 2-System architecture and core application logic ( Member 2 need to focus on the "brain" of the system how the applications work. Designing the overall structure of the project, Ensuring the system is scalable, efficient, and maintainable and the system perform tasks perfectlly or not)
