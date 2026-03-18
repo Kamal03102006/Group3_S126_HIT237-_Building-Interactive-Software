@@ -16,11 +16,13 @@ SECTION 1: Terms and Conditions of group work
 5) Conflict Resolution - If disagreements occur, the group will discuss the issue respectfully and attempt to resolve it. If unresolved, the issue will be documented, and the teaching team may be contacted for guidance.
 6) Academic Integrity and Ethical Use of AI- 
 All work must comply with the academic integrity policies of Charles Darwin University.
+
 AI tools (e.g., ChatGPT, GitHub Copilot) may be used only for:
   - code scaffolding (basic Django setup, structure)
   - debugging and error fixing
   - documentation and explanations
 AI must not be used to generate full solutions or be copied directly without understanding.
+
 All AI-generated content must be:
   - reviewed by another team member
   - tested before use
