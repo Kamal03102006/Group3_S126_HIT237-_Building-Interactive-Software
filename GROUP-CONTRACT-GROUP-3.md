@@ -40,18 +40,3 @@ SECTION 2: Milestones and Checkpoints
 4) Milestone 4 - Architectural Decision Record (ADR) Development (Create ADR Markdown file in repository, document key architectural decisions, record alternatives considered and rationale, add code references for implemented decisions)
 5) Milestone 5 - Assessment 2 Final Review and Submission (Ensure Django application runs correctly, update group contract and project plan, upload ADR document, prepare supplementary materials like ERD, diagrams etc)
 6) 
- Week 10- Advanced Development / Refinement ( Refine Refine system based on feedback, Implement additional features
-
-week 12- Final Testing & Documentation (Assessment 4) (Complete final system testing, need to prepare final documentation and presentation.)
-
-Week 13-  Final submission  (Submit Assessment 4/ Ensure GitHub report is final and accessible).
-
-Task Breakdown
-
-Member 1- Frontend developement and user interface design( Member 1 is responsible for everyting the user interacts with visually. They need to do designing and implementing the website or application layout, creating forms,buttons, menus, and pages, interact with the system smoothly and efficiently)
-
-Member 2-System architecture and core application logic ( Member 2 need to focus on the "brain" of the system how the applications work. Designing the overall structure of the project, Ensuring the system is scalable, efficient, and maintainable and the system perform tasks perfectlly or not)
-
-Member 3- Backend development and database integration (Member 3 handles the “server-side” part and data storage.(creating table in database and modles, write APIs to store, mainpulate  data. All data is accurate, secure, and accessible when the application needs it.)
-
-Member 4- Documentation, testing, and quality assurance(Member 4 ensures the project works correctly and is properly documented.( Member 4 need to testing the application to find and fix errors or bugs, Writing documentation about system design, user guides, and code explanations, the system is reliable, functions correctly, and is easy to understand for others.
