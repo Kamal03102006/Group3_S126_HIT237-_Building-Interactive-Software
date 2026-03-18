@@ -27,6 +27,7 @@ All AI-generated content must be:
   - reviewed by another team member
   - tested before use
   - fully understood by the contributor
+
 All major AI-assisted decisions must be recorded in the ADR, including what was generated, changes made, and final reasoning.
 If any AI-generated code is unclear or incorrect, it will be revised or removed and not included in the final submission.
 7) Contract Amendments - This contract may be updated if circumstances change during the semester. Any amendment must be discussed during a group meeting and agreed upon by all members. Changes must be recorded as a new commit in the GitHub repository. This ensures the contract remains a living document.
