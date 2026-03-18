@@ -14,7 +14,19 @@ SECTION 1: Terms and Conditions of group work
 3) Task Ownership - The tasks will be allocated to different members according to their skills and interests. The member who is allocated a task will be expected to complete the task by the given deadline. If a member is unable to do the task for any reason, he/she should let the group know as soon as possible so that we can assign that particular task to some other team member.
 4) Diverse working styles - Team members agree to maintain flexible meeting times when possible and distribute tasks according to skills and availability. The group also agrees to support each other when challenges (technical) arise. This encourages fairness while respecting individual circumstances.
 5) Conflict Resolution - If disagreements occur, the group will discuss the issue respectfully and attempt to resolve it. If unresolved, the issue will be documented, and the teaching team may be contacted for guidance.
-6) Academic Integrity and Ethical Use of AI - All work must comply with the academic integrity policies of Charles Darwin University. AI- generated content must be reviewed and understood by all team members, and AI should support learning rather than critical thinking. If AI- generated code is unclear or incorrect, the team will review and revise it before integrating it into the project.
+6) Academic Integrity and Ethical Use of AI- 
+All work must comply with the academic integrity policies of Charles Darwin University.
+AI tools (e.g., ChatGPT, GitHub Copilot) may be used only for:
+  - code scaffolding (basic Django setup, structure)
+  - debugging and error fixing
+  - documentation and explanations
+AI must not be used to generate full solutions or be copied directly without understanding.
+All AI-generated content must be:
+  - reviewed by another team member
+  - tested before use
+  - fully understood by the contributor
+All major AI-assisted decisions must be recorded in the ADR, including what was generated, changes made, and final reasoning.
+If any AI-generated code is unclear or incorrect, it will be revised or removed and not included in the final submission.
 7) Contract Amendments - This contract may be updated if circumstances change during the semester. Any amendment must be discussed during a group meeting and agreed upon by all members. Changes must be recorded as a new commit in the GitHub repository. This ensures the contract remains a living document.
 
 SECTION 2: Milestones and Checkpoints
