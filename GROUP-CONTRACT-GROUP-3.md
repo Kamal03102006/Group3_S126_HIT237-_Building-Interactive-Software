@@ -43,4 +43,34 @@ SECTION 2: Milestones and Checkpoints
 7)   Milestone 7 - Advance developemwnt and Refinement ( Refine system base on feedback, implement additional features) (week 10) (All members)
 8)   Milestone 8 - Final testing documentation ( Complete final system testing, identify and fix all bugs and errors. Perform internal demonstration and peer review (week 11,12) ( All Members)
 9)   Milestone 9 - Final submission ( Submit assignment 4, including documentation code and all supportive materials. Ensure Git-hub repository is up-to-date (week 13) ( All Members)
-10)   
+
+Internal Checkpoints 
+- Need to check weekly progress review during meetings
+- Mid-assessment review before submission
+- Peer review of all deliverables
+
+Integration Plan
+- Code merged via pull requests
+- Minimum 1 reviewer per PR
+- Final integration testing before submission
+
+Version Control Agreement
+- All work must be committed via GitHub
+- Minimum 2 meaningful commits per member per week
+- Use clear commit messages
+
+  Agreement
+ By contributing to this repository all members agree to the term outlined above.
+
+S.Num.          Name              Signature                 
+Member 1.      Kamalpreet
+Member 2.      Mehakpreet Kaur
+Member 3.      Harsimaran Singh
+Member 4.      Tanu Salaria          Tanu
+  
+
+
+
+  
+
+
