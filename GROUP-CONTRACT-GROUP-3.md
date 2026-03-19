@@ -72,7 +72,7 @@ Version Control Agreement
  By contributing to this repository all members agree to the term outlined above.
 
 S.Num.          Name              Signature                 
-Member 1.      Kamalpreet
+Member 1.      Kamalpreet           Kamal
 Member 2.      Mehakpreet Kaur
 Member 3.      Harsimaran Singh      Harsimran
 Member 4.      Tanu Salaria          Tanu
