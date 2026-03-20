@@ -73,9 +73,9 @@ Version Control Agreement
 
 S.Num.          Name              Signature                 
 Member 1.      Kamalpreet           Kamal
-Member 2.      Mehakpreet Kaur
-Member 3.      Harsimaran Singh      Harsimran
-Member 4.      Tanu Salaria          Tanu
+Member 2.      Mehakpreet Kaur      Mehak
+Member 3.      Harsimaran Singh     Harsimran
+Member 4.      Tanu Salaria         Tanu
   
 
 
