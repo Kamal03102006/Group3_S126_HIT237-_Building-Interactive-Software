@@ -36,22 +36,21 @@ If any AI-generated code is unclear or incorrect, it will be revised or removed 
 SECTION 2: Milestones and Checkpoints
 1) Milestone 1 - Project Setup (Create shared GitHub repository, write and submit the group contract that is Assessment 1, set up communication tools like Microsoft Teams, GitHub Issues)
 Deadline for milestone1:March 20
-2) Milestone 2 - Research & System Design (Research housing challenges in remote communities, define system requirements and features, create Entity Relationship Diagram (ERD), create initial class diagram, identify Django design philosophies and patterns to implement)
-   Deadline for milestone 2:March 27
+2) Milestone 2 - Research & System Design (Research housing challenges in remote communities, define system requirements and features, create Entity Relationship Diagram (ERD), create initial class diagram, identify Django design philosophies and patterns to implement)           Deadline for milestone 2:March 27
 3) Milestone 3 - Django Development (Create Django project and app structure, implement models and relationships, implement Django QuerySet APIs, develop class-based views, apply object-oriented design principles)
 Deadline for milestone 3: April 6
 4) Milestone 4 - Architectural Decision Record (ADR) Development (Create ADR Markdown file in repository, document key architectural decisions, record alternatives considered and rationale, add code references for implemented decisions)
-   Deadline for milestone 4: April 10
-5) Milestone 5 - Assessment 2 Final Review and Submission (Ensure Django application runs correctly, update group contract and project plan, upload ADR document, prepare supplementary materials like ERD, diagrams etc)
-   Deadline for milestone 5:April 12
-7)  Milestone 6 - Discuss Assignment 4 ( Plan additional features and inprovements for assignment 4. Divide responsibilities and set target deadline ( week 9) ( All Members)
-   Deadline for milestone 6:April 13
-9)   Milestone 7 - Advance developemwnt and Refinement ( Refine system base on feedback, implement additional features) (week 10) (All members)
-    Deadline for milestone 7: April 14
-11)   Milestone 8 - Final testing documentation ( Complete final system testing, identify and fix all bugs and errors. Perform internal demonstration and peer review (week 11,12) ( All Members)
-  Deadline for milestone 8: April 15
-12)   Milestone 9 - Final submission ( Submit assignment 4, including documentation code and all supportive materials. Ensure Git-hub repository is up-to-date (week 13) ( All Members)
-    Deadline for milestone 9: april 16
+Deadline for milestone 4: April 10
+5) Milestone 5 - Assessment 2 Final Review and Submission (Ensure Django application runs correctly, update group contract and project plan,     upload ADR document, prepare supplementary materials like ERD, diagrams etc)
+Deadline for milestone 5:April 12
+6) Milestone 6 - Discuss Assignment 4 ( Plan additional features and inprovements for assignment 4. Divide responsibilities and set target       deadline ( week 9) ( All Members)
+Deadline for milestone 6:April 13
+7) Milestone 7 - Advance developemwnt and Refinement ( Refine system base on feedback, implement additional features) (week 10) (All members)
+Deadline for milestone 7: April 14
+8) Milestone 8 - Final testing documentation ( Complete final system testing, identify and fix all bugs and errors. Perform internal           demonstration and peer review (week 11,12) ( All Members)
+Deadline for milestone 8: April 15
+9) Milestone 9 - Final submission ( Submit assignment 4, including documentation code and all supportive materials. Ensure Git-hub repository    is up-to-date (week 13) ( All Members)
+Deadline for milestone 9: april 16
 
 Internal Checkpoints 
 - Need to check weekly progress review during meetings
@@ -68,10 +67,10 @@ Version Control Agreement
 - Minimum 2 meaningful commits per member per week
 - Use clear commit messages
 
-  Agreement
- By contributing to this repository all members agree to the term outlined above.
+Agreement
+By contributing to this repository all the members agree to the terms and conditions outlined above.
 
-S.Num.          Name              Signature                 
+Member Num.          Name              Signature                 
 Member 1.      Kamalpreet           Kamal
 Member 2.      Mehakpreet Kaur      Mehak
 Member 3.      Harsimaran Singh     Harsimran
