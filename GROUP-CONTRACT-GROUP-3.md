@@ -40,15 +40,15 @@ Deadline for milestone1: March 20
 Deadline for milestone 3: April 6
 4) Milestone 4 - Architectural Decision Record (ADR) Development (Create ADR Markdown file in repository, document key architectural decisions, record alternatives considered and rationale, add code references for implemented decisions)
 Deadline for milestone 4: April 10
-5) Milestone 5 - Assessment 2 Final Review and Submission (Ensure Django application runs correctly, update group contract and project plan,     upload ADR document, prepare supplementary materials like ERD, diagrams etc)
+5) Milestone 5 - Assessment 2 Final Review and Submission (Ensure Django application runs correctly, update group contract and project plan,    upload ADR document, prepare supplementary materials like ERD, diagrams etc)
 Deadline for milestone 5: April 12
-6) Milestone 6 - Discuss Assignment 4 ( Plan additional features and inprovements for assignment 4. Divide responsibilities and set target       deadline ( week 9) ( All Members)
+6) Milestone 6 - Discuss Assignment 4 ( Plan additional features and inprovements for assignment 4. Divide responsibilities and set target      deadline ( week 9) ( All Members)
 Deadline for milestone 6: April 13
 7) Milestone 7 - Advance developemwnt and Refinement ( Refine system base on feedback, implement additional features) (week 10) (All members)
 Deadline for milestone 7: April 14
 8) Milestone 8 - Final testing documentation ( Complete final system testing, identify and fix all bugs and errors. Perform internal           demonstration and peer review (week 11,12) ( All Members)
 Deadline for milestone 8: April 15
-9) Milestone 9 - Final submission ( Submit assignment 4, including documentation code and all supportive materials. Ensure Git-hub repository    is up-to-date (week 13) ( All Members)
+9) Milestone 9 - Final submission ( Submit assignment 4, including documentation code and all supportive materials. Ensure Git-hub repository   is up-to-date (week 13) ( All Members)
 Deadline for milestone 9: april 16
 
 #Internal Checkpoints: 
