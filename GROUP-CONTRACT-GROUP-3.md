@@ -62,9 +62,9 @@ Deadline for milestone 9: april 16
 - Final integration testing before submission
 
 #Version Control Agreement:
-- All work must be committed via GitHub
-- Minimum 2 meaningful commits per member per week
-- Use clear commit messages
+- All work must be committed via GitHub only
+- Minimum 2 meaningful commits per member per week to ensure fair contribution
+- Use clear commit messages to avoid any confusion
 
 #Agreement:
 By contributing to this repository all the members agree to the terms and conditions outlined above.
