@@ -72,7 +72,7 @@ By contributing to this repository all the members agree to the terms and condit
 
 Member Num.          Name              Signature                 
 Member 1.      Kamalpreet           Kamal
-Member 2.      Mehakpreet Kaur      Mehak
+Member 2.      Mehakpreet Kaur      Mehakpreet
 Member 3.      Harsimaran Singh     Harsimran
 Member 4.      Tanu Salaria         Tanu
   
