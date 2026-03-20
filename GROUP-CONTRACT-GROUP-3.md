@@ -32,6 +32,7 @@ All major AI-assisted decisions must be recorded in the ADR, including what was 
 If any AI-generated code is unclear or incorrect, it will be revised or removed and not included in the final submission.
 
 7) Contract Amendments - This contract may be updated if circumstances change during the semester. Any amendment must be discussed during a group meeting and agreed upon by all members. Changes must be recorded as a new commit in the GitHub repository. This ensures the contract remains a living document.
+8) Amendments - Any change to this contract in future must be approved and discussed by all the team members.
 
 SECTION 2: Milestones and Checkpoints
 1) Milestone 1 - Project Setup (Create shared GitHub repository, write and submit the group contract that is Assessment 1, set up communication tools like Microsoft Teams, GitHub Issues)
