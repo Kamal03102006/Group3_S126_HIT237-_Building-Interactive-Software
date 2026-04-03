@@ -1,4 +1,4 @@
-ADR-01: USE DJANGO MTV ARCHITECTURE
+ADR-01: USE DJANGO MVT ARCHITECTURE
 
 STATUS:
 Accepted
@@ -17,7 +17,7 @@ Pros: Flexible design
 Cons: Not aligned with Django best practices
 
 DECISION:
-We chose to use Django’s MTV (Model-Template-View) architecture.
+We chose to use Django’s MVT (Model-View-Template) architecture.
 
 Data structure and database relationships will be handled by the Models.
 Templates will manage the user interface.
