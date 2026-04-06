@@ -4,28 +4,38 @@ STATUS:
 Accepted
 
 CONTEXT:
-This project requires to build a scalable and maintainable Django web application for managing housing resources in remote communities. The system must clearly separated from data handling, user interface, and business logic.
+The project requires building a Django web application that enables tenants in remote communities to report housing repair issues, track repair status, and view maintenance history.
+The system must clearly separate data management (repair records, tenants, dwellings), user interface (forms and dashboards), and application logic (processing repair requests and updates).
 
 ALTERNATIVES CONSIDERED:
-
 1. Function-based structure
-Advantages : Simple to implement
-Disadvantages : Hard to scale and maintain for larger applications.
+Advantages: Simple and quick to implement
+Disadvantages:
+ Difficult to scale for complex workflows like repair tracking
+ Poor separation of concerns
+ Hard to maintain as the system grows
 
 2. Custom architecture without Django standards
-Pros: Flexible design
-Cons: Not aligned with Django best practices
+Advantages: Flexible design
+Disadvantages:
+ Not aligned with Django best practices
+ Increased development complexity
+ Reduced maintainability
 
-DECISION:
-We chose to use Django’s MVT (Model-View-Template) architecture.
+DECISION: 
+We chose Django’s MVT (Model-View-Template) architecture.
+Models handle domain entities such as Dwelling, Tenant, RepairRequest, and MaintenanceUpdate.
+Views manage application logic, such as processing repair submissions and updating statuses.
+Templates provide the user interface for tenants to log and track repairs.
 
-Data structure and database relationships will be handled by the Models.
-Templates will manage the user interface.
-Application logic and data flow will be controled by Views
-
-The approach follows Django design philosophies, and supports scalability and maintainability.
+This architecture ensures clear separation of concerns and supports maintainable, scalable development aligned with Django design philosophies.
 
 CODE REFERENCE:
+housing/models.py
+housing/views.py
+housing/templates/
+
+
 -models.py
 -views.py
 -templates/
