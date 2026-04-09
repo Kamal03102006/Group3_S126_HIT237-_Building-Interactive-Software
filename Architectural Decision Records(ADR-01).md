@@ -31,7 +31,7 @@ Templates provide the user interface for tenants to log and track repairs.
 This architecture ensures clear separation of concerns and supports maintainable, scalable development aligned with Django design philosophies.
 
 CODE REFERENCE:
-housing/models.py
+housing/models.py: 1-119
 housing/views.py
 housing/templates/
 
