@@ -50,11 +50,11 @@ This design reflects the real-world structure of remote housing systems:
 This approach aligns with Django’s object-oriented design principles and supports scalability, maintainability, and efficient querying. It also enables future enhancements such as reporting, filtering, and audit history without restructuring the database.
 
 Code Reference
-- housing/models.py 5-12 (Community model)
-- housing/models.py 15-39 (Dwelling model)
-- housing/models.py 42-55 (Tenant model)
-- housing/models.py 58-104 (RepairRequest model)
-- housing/models.py 107-119 (MaintenanceUpdate model)
+- housing/models.py 5-14 (Community model)
+- housing/models.py 17-41 (Dwelling model)
+- housing/models.py 44-57 (Tenant model)
+- housing/models.py 60-108 (RepairRequest model)
+- housing/models.py 11-128 (MaintenanceUpdate model)
 
 
 
