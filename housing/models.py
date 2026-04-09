@@ -10,6 +10,8 @@ class Community(models.Model):
 
     def __str__(self):
         return self.name
+    class Meta: 
+        verbose_name_plural = "Communities"
 
 
 class Dwelling(models.Model):
@@ -102,6 +104,8 @@ class RepairRequest(models.Model):
 
     def __str__(self):
         return self.title
+    class Meta:
+        ordering = ["-reported_at"]
 
 
 class MaintenanceUpdate(models.Model):
@@ -111,9 +115,14 @@ class MaintenanceUpdate(models.Model):
         related_name="updates"
     )
     note = models.TextField()
-    status_snapshot = models.CharField(max_length=20)
+    status_snapshot = models.CharField(
+        max_length=20,
+        choices=RepairRequest.STATUS_CHOICES
+    )
     updated_by = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Update for {self.repair_request.title}"
+    class Meta:
+        ordering = ["-created_at"]
