@@ -15,8 +15,8 @@ Django QuerySet methods were utilized to achieve:
 
 Code Reference
 -views.py
--RepairRequestListView (lines X–X)
--RepairRequestDetailView (lines X–X)
+-RepairRequestListView (lines 5–15)
+-RepairRequestDetailView (lines 18–27)
 -urls.py`
 
 Consequences
