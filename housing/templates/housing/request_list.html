@@ -1,22 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Requests</title>
+    <title>Repair Requests</title>
 </head>
 <body>
-    <h1>Pending Requests</h1>
+    <h1>Repair Requests</h1>
+    <p>
+        <a href="{% url 'dwelling-list' %}">View Houses</a> |
+        <a href="{% url 'repairrequest-create' %}">Submit New Request</a>
+    </p>
 
-    {% for request in requests %}
-        <p>{{ request }}</p>
-    {% empty %}
-        <p>No pending requests.</p>
-    {% endfor %}
-    <h1>Available Houses</h1>
-
-    {% for house in houses %}
-    <p>{{ house.location }} (Capacity: {{ house.capacity }})</p>
-    {% empty %}
-    <p>No houses available</p>
-    {% endfor %}
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Dwelling</th>
+                <th>Tenant</th>
+                <th>Category</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Reported</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in requests %}
+            <tr>
+                <td><a href="{% url 'repairrequest-detail' request.pk %}">{{ request.title }}</a></td>
+                <td>{{ request.dwelling }}</td>
+                <td>{{ request.tenant|default:"N/A" }}</td>
+                <td>{{ request.get_category_display }}</td>
+                <td>{{ request.get_priority_display }}</td>
+                <td>{{ request.get_status_display }}</td>
+                <td>{{ request.reported_at|date:"Y-m-d H:i" }}</td>
+                <td>
+                    <a href="{% url 'repairrequest-update' request.pk %}">Edit</a> |
+                    <a href="{% url 'repairrequest-delete' request.pk %}">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">No repair requests found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>

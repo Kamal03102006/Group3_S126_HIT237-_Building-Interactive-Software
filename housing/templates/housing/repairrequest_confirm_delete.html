@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Repair Request</title>
+</head>
+<body>
+    <h1>Delete Repair Request</h1>
+    <p>Are you sure you want to delete &quot;{{ object.title }}&quot;?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, delete</button>
+        <a href="{% url 'repairrequest-detail' object.pk %}">Cancel</a>
+    </form>
+</body>
+</html>
