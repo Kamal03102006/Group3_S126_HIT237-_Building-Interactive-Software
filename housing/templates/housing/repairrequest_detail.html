@@ -1,22 +1,70 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Requests</title>
-</head>
-<body>
-    <h1>Pending Requests</h1>
+{% extends "housing/base.html" %}
 
-    {% for request in requests %}
-        <p>{{ request }}</p>
-    {% empty %}
-        <p>No pending requests.</p>
-    {% endfor %}
-    <h1>Available Houses</h1>
+{% block title %}Repair Request Details{% endblock %}
 
-    {% for house in houses %}
-    <p>{{ house.location }} (Capacity: {{ house.capacity }})</p>
-    {% empty %}
-    <p>No houses available</p>
-    {% endfor %}
-</body>
-</html>
+{% block content %}
+    <h2>Repair Request Details</h2>
+
+    <div class="card">
+        <h3>{{ repair_request.title }}</h3>
+
+        <p>
+            <span class="badge priority-{{ repair_request.priority }}">{{ repair_request.get_priority_display }}</span>
+            <span class="badge status-{{ repair_request.status }}">{{ repair_request.get_status_display }}</span>
+        </p>
+
+        <p><strong>Category:</strong> {{ repair_request.get_category_display }}</p>
+        <p><strong>Description:</strong> {{ repair_request.description }}</p>
+
+        <hr>
+
+        <h3>Dwelling Information</h3>
+        <p><strong>House Code:</strong> {{ repair_request.dwelling.house_code }}</p>
+        <p><strong>Address:</strong> {{ repair_request.dwelling.address }}</p>
+        <p><strong>Community:</strong> {{ repair_request.dwelling.community.name }}</p>
+        <p><strong>Region:</strong> {{ repair_request.dwelling.community.region }}</p>
+        <p><strong>Condition:</strong> {{ repair_request.dwelling.get_condition_status_display }}</p>
+
+        <hr>
+
+        <h3>Tenant Information</h3>
+        {% if repair_request.tenant %}
+            <p><strong>Name:</strong> {{ repair_request.tenant.full_name }}</p>
+            <p><strong>Phone:</strong> {{ repair_request.tenant.phone|default:"Not provided" }}</p>
+            <p><strong>Email:</strong> {{ repair_request.tenant.email|default:"Not provided" }}</p>
+            <p><strong>Primary Tenant:</strong>
+                {% if repair_request.tenant.is_primary_tenant %}Yes{% else %}No{% endif %}
+            </p>
+        {% else %}
+            <p>No tenant linked to this repair request.</p>
+        {% endif %}
+
+        <hr>
+
+        <h3>Maintenance History</h3>
+        {% if repair_request.updates.all %}
+            <ul>
+                {% for update in repair_request.updates.all %}
+                    <li>
+                        <strong>{{ update.created_at }}</strong><br>
+                        <strong>Status Snapshot:</strong> {{ update.get_status_snapshot_display }}<br>
+                        <strong>Updated By:</strong> {{ update.updated_by }}<br>
+                        <strong>Note:</strong> {{ update.note }}
+                    </li>
+                    <br>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No maintenance updates yet.</p>
+        {% endif %}
+
+        <p class="meta">
+            <strong>Reported at:</strong> {{ repair_request.reported_at }}<br>
+            <strong>Last updated:</strong> {{ repair_request.updated_at }}
+        </p>
+
+        <a class="btn" href="{% url 'repairrequest-update' repair_request.pk %}">Edit Request</a>
+        <a class="btn" href="{% url 'maintenanceupdate-create' repair_request.pk %}">Add Maintenance Update</a>
+        <a class="btn btn-secondary" href="{% url 'repairrequest-list' %}">Back to List</a>
+    </div>
+{% endblock %}
