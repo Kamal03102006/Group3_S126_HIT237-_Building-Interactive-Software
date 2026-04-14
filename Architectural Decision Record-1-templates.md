@@ -28,9 +28,9 @@ Consequences
 
 Pros:
 
-Ensures consistent UI.
-Reduces code duplication.
-Simplifies future updates.
+- Ensures consistent UI.
+- Reduces code duplication.
+- Simplifies future updates.
 
 Cons:
 
