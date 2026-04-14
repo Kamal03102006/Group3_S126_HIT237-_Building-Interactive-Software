@@ -36,8 +36,8 @@ Consequences
 
 Pros:
 
-Secure and efficient rendering.
-Seamless integration with Django.
+- Secure and efficient rendering.
+- Seamless integration with Django.
 
 Cons:
 
