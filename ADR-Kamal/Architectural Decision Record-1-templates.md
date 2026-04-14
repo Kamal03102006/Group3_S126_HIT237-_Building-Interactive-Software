@@ -7,17 +7,20 @@ Context
 The application includes multiple pages such as repair request lists, details, and submission forms. A consistent and maintainable layout is required.
 
 Alternatives Considered
-Duplicate HTML in each template
+
+- Duplicate HTML in each template
 ✔ Simple
 ✖ Difficult to maintain
-Template inheritance using base.html
+- Template inheritance using base.html
 ✔ Reusable and consistent
 ✖ Requires initial setup
+
 Decision
 
 Implemented Django template inheritance using a shared base.html to define layout, navigation, and styling.
 
 Code References
+
 - housing/templates/housing/base.html
 - housing/templates/housing/repairrequest_list.html   # gonna commit 
 - housing/templates/housing/repairrequest_detail.html  # gonna commit
