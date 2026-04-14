@@ -1,33 +1,37 @@
-## ADR 008: Use template inheritance with a shared base template
+ADR: Use Template Inheritance with base.html
 
-**Status:** Accepted
+Status: Accepted
 
-**Context:**  
-The application includes multiple pages such as dashboard, repair list, repair detail, and dwelling detail. These pages share common layout elements such as navigation, styling, and message display.
+Context
 
-**Alternatives considered:**  
-1. Repeat HTML structure in every template  
-   - Quick to implement  
-   - Causes duplication  
-   - Hard to maintain
+The application includes multiple pages such as repair request lists, details, and submission forms. A consistent and maintainable layout is required.
 
-2. Use a shared base template with inheritance  
-   - Cleaner structure  
-   - Reduces duplication  
-   - Easier to update UI globally
+Alternatives Considered
+Duplicate HTML in each template
+✔ Simple
+✖ Difficult to maintain
+Template inheritance using base.html
+✔ Reusable and consistent
+✖ Requires initial setup
+Decision
 
-**Decision:**  
-Use a shared `base.html` template with `{% extends %}` and reusable components.
+Implemented Django template inheritance using a shared base.html to define layout, navigation, and styling.
 
-**Rationale:**  
-This follows Django’s DRY (Don’t Repeat Yourself) principle and ensures consistent UI across all pages. It also makes future UI updates easier and reduces maintenance effort.
+Code References
+- housing/templates/housing/base.html
+- housing/templates/housing/repairrequest_list.html   # gonna commit 
+- housing/templates/housing/repairrequest_detail.html  # gonna commit
+- housing/templates/housing/repairrequest_form.html     # gonna commit
+- housing/templates/housing/maintenanceupdate_form.html   # gonna commit
 
-**Code reference:**  (will commit in github till weekend)
-`templates/base.html`  
-`templates/dashboard/dashboard.html`  
-`templates/housing/*.html`
+Consequences
 
-**Consequences:**  
-All templates must follow the same structure, but this improves consistency and scalability.
+Pros:
 
----
+- Ensures consistent UI.
+- Reduces code duplication.
+- Simplifies future updates.
+
+Cons:
+
+Changes to base.html affect all templates.
