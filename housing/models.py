@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
-
+from django.urls import reverse
 
 class Community(models.Model):
     name = models.CharField(max_length=100)
@@ -43,6 +43,8 @@ class Dwelling(models.Model):
     def __str__(self):
         return f"{self.house_code} - {self.address}"
 
+    def active_repair_count(self):
+        return self.repair_requests.exclude(status__in=["completed", "cancelled"]).count()
 
 class Tenant(models.Model):
     dwelling = models.ForeignKey(
@@ -121,6 +123,12 @@ class RepairRequest(models.Model):
 
     class Meta:
         ordering = ["-reported_at"]
+
+    def get_absolute_url(self):
+        return reverse("repair_request_detail", kwargs={"pk": self.pk})
+    
+    def is_open(self):
+        return self.status not in ["completed", "cancelled"]
 
 
 class MaintenanceUpdate(models.Model):
