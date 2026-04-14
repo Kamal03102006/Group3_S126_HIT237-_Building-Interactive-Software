@@ -1,33 +1,34 @@
-## ADR 008: Use template inheritance with a shared base template
+ADR: Use Template Inheritance with base.html
 
-**Status:** Accepted
+Status: Accepted
+Date: 10 April 2026
 
-**Context:**  
-The application includes multiple pages such as dashboard, repair list, repair detail, and dwelling detail. These pages share common layout elements such as navigation, styling, and message display.
+Context
 
-**Alternatives considered:**  
-1. Repeat HTML structure in every template  
-   - Quick to implement  
-   - Causes duplication  
-   - Hard to maintain
+The application requires multiple web pages, including repair request lists, details, submission forms, and maintenance updates. Maintaining consistency across these pages while avoiding repetitive HTML code is essential for scalability and maintainability.
 
-2. Use a shared base template with inheritance  
-   - Cleaner structure  
-   - Reduces duplication  
-   - Easier to update UI globally
+Alternatives Considered
+Option	Description	Pros	Cons
+Duplicate HTML in every template	Each page contains full layout code	Simple to implement	Difficult to maintain and inconsistent
+Use Django template inheritance	Shared layout with reusable blocks	Reduces redundancy and ensures consistency	Requires initial setup
+Decision
 
-**Decision:**  
-Use a shared `base.html` template with `{% extends %}` and reusable components.
+Django template inheritance was implemented using a shared base.html file, which defines the global layout and styling.
 
-**Rationale:**  
-This follows Django’s DRY (Don’t Repeat Yourself) principle and ensures consistent UI across all pages. It also makes future UI updates easier and reduces maintenance effort.
+Code Reference
+housing/templates/housing/base.html
+housing/templates/housing/repairrequest_list.html  # gonna commit soon
+housing/templates/housing/repairrequest_detail.html # gonna commit soon
+housing/templates/housing/repairrequest_form.html # gonna commit soon
+housing/templates/housing/maintenanceupdate_form.html # gonna commit soon
+Consequences
 
-**Code reference:**  (will commit in github till weekend)
-`templates/base.html`  
-`templates/dashboard/dashboard.html`  
-`templates/housing/*.html`
+Positive:
 
-**Consequences:**  
-All templates must follow the same structure, but this improves consistency and scalability.
+Ensures consistent UI across the application.
+Reduces code duplication.
+Simplifies future enhancements.
 
----
+Negative:
+
+Changes to base.html affect all templates
