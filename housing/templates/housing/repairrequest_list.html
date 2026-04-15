@@ -1,0 +1,68 @@
+{% extends "housing/base.html" %}
+
+{% block title %}Repair Requests{% endblock %}
+
+{% block content %}
+    <h2>Repair Requests</h2>
+    <p>View, filter, and track housing repair issues reported by tenants in remote communities.</p>
+
+    <div class="filter-box">
+        <form method="get">
+            <label for="status">Filter by status</label>
+            <select name="status" id="status">
+                <option value="">All</option>
+                {% for value, label in status_choices %}
+                    <option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label for="priority">Filter by priority</label>
+            <select name="priority" id="priority">
+                <option value="">All</option>
+                {% for value, label in priority_choices %}
+                    <option value="{{ value }}" {% if selected_priority == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn">Apply Filters</button>
+            <a href="{% url 'repairrequest-list' %}" class="btn btn-secondary">Clear</a>
+        </form>
+    </div>
+
+    {% if repair_requests %}
+        {% for request in repair_requests %}
+            <div class="card">
+                <h3>{{ request.title }}</h3>
+
+                <p>
+                    <span class="badge priority-{{ request.priority }}">{{ request.get_priority_display }}</span>
+                    <span class="badge status-{{ request.status }}">{{ request.get_status_display }}</span>
+                </p>
+
+                <p><strong>Category:</strong> {{ request.get_category_display }}</p>
+                <p><strong>Dwelling:</strong> {{ request.dwelling.house_code }} - {{ request.dwelling.address }}</p>
+                <p><strong>Community:</strong> {{ request.dwelling.community.name }}</p>
+
+                {% if request.tenant %}
+                    <p><strong>Reported by:</strong> {{ request.tenant.full_name }}</p>
+                {% else %}
+                    <p><strong>Reported by:</strong> Not recorded</p>
+                {% endif %}
+
+                <p><strong>Description:</strong> {{ request.description|truncatewords:20 }}</p>
+                <p class="meta"><strong>Reported at:</strong> {{ request.reported_at }}</p>
+
+                <a class="btn" href="{% url 'repairrequest-detail' request.pk %}">View Details</a>
+                <a class="btn btn-secondary" href="{% url 'repairrequest-update' request.pk %}">Edit</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty">
+            <p>No repair requests found.</p>
+        </div>
+    {% endif %}
+{% endblock %}
