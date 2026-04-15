@@ -9,11 +9,11 @@ The application includes multiple pages such as repair request lists, details, a
 Alternatives Considered
 
 - Duplicate HTML in each template
-✔ Simple
-✖ Difficult to maintain
+
+  Simple but Difficult to maintain
 - Template inheritance using base.html
-✔ Reusable and consistent
-✖ Requires initial setup
+
+  Reusable and consistent but Requires initial setup
 
 Decision
 
@@ -22,10 +22,10 @@ Implemented Django template inheritance using a shared base.html to define layou
 Code References
 
 - housing/templates/housing/base.html
-- housing/templates/housing/repairrequest_list.html   # gonna commit 
-- housing/templates/housing/repairrequest_detail.html  # gonna commit
-- housing/templates/housing/repairrequest_form.html     # gonna commit
-- housing/templates/housing/maintenanceupdate_form.html   # gonna commit
+- housing/templates/housing/repairrequest_list.html  
+- housing/templates/housing/repairrequest_detail.html 
+- housing/templates/housing/repairrequest_form.html    
+- housing/templates/housing/maintenanceupdate_form.html  
 
 Consequences
 
