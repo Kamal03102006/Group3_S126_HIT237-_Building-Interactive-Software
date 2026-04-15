@@ -24,8 +24,8 @@ Implemented server-side filtering using Django QuerySets and rendered results vi
 
 Code References
 
-housing/views.py
-housing/templates/housing/repairrequest_list.html
+- housing/views.py
+- housing/templates/housing/repairrequest_list.html
 
 Consequences
 
