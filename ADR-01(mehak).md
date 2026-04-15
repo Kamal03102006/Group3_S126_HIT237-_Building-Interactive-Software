@@ -24,7 +24,7 @@ Disadvantages:
 
 DECISION: 
 We chose Django’s MVT (Model-View-Template) architecture.
-Models handle domain entities such as Dwelling, Tenant, RepairRequest, and MaintenanceUpdate.
+Models handle domain entities such as community, Dwelling, Tenant, RepairRequest, and MaintenanceUpdate.
 Views manage application logic, such as processing repair submissions and updating statuses.
 Templates provide the user interface for tenants to log and track repairs.
 
@@ -36,9 +36,6 @@ housing/views.py
 housing/templates/
 
 
--models.py
--views.py
--templates/
 
 CONSEQUENCES:
 
