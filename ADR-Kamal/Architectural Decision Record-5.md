@@ -1,47 +1,41 @@
-ADR: Use Django Messages Framework for User Feedback
+ADR 5: Implement Navigation and Feedback in Templates
 
 Status: Accepted
 
 Context
 
-Users require confirmation messages when submitting or updating repair requests.
+Users require intuitive navigation and clear feedback to interact effectively with the system.
 
 Alternatives Considered
 
-- No Feedback
+- Minimal navigation
 
-Poor user experience
-- JavaScript Alerts
+  Simple but Poor usability
+- Structured navigation and feedback
 
-Less integrated with Django
-- Django Messages Framework
-
-Secure and built-in
+  Improves accessibility and experience but	requires additional design effort
 
 Decision
 
-Implemented Django Messages Framework for success notifications.
+Navigation links and feedback sections were included within base.html to enhance usability and accessibility.
 
 Code References
 
-housing/templates/housing/base.html
-housing/views.py
+- housing/templates/housing/base.html
 
 Example
-
-{% if messages %}
-    {% for message in messages %}
-        <div class="message">{{ message }}</div>
-    {% endfor %}
-{% endif %}
+<nav>
+    <a href="{% url 'repairrequest-list' %}">All Requests</a>
+    <a href="{% url 'repairrequest-create' %}">Submit Request</a>
+</nav>
 
 Consequences
 
-Pros:
+Positive:
 
-- Improves usability and user satisfaction.
-- Provides immediate feedback.
+- Enhances user experience and accessibility.
+- Improves system usability.
 
-Cons:
+Negative:
 
-Requires proper configuration.
+Requires updates if routes change.
