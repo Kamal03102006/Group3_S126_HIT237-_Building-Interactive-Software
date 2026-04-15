@@ -1,0 +1,101 @@
+ADR-03: Enhancement of Data Model Structure and Relationships in Housing Application.
+
+Status
+Accepted
+
+Context
+After implementing the initial system design (ADR-01) and establishing core architectural patterns (ADR-02), the project required improvements in the data model to better represent real-world housing management scenarios.
+
+The initial models provided basic structure but lacked:
+
+* Standardized field validation
+* Clear status and category representation
+* Efficient querying and ordering
+* Helper methods for business logic
+* Stronger relationships between entities
+
+To improve maintainability, readability, and performance, refinements were needed in the `models.py` file.
+
+
+Decision
+I decided to enhance the Django models by introducing the following improvements:
+
+1. Use of Field Choices
+
+a) Implemented `CATEGORY_CHOICES`, `PRIORITY_CHOICES`, and `STATUS_CHOICES` in the `RepairRequest` model
+b) Implemented `CONDITION_CHOICES` in the `Dwelling` model
+This ensures consistent and controlled input values.
+
+
+2. Improved Relationships
+
+Used `ForeignKey` relationships between:
+
+  a)Community → Dwelling
+  b)Dwelling → Tenant
+  c)RepairRequest → Dwelling and Tenant
+  d)MaintenanceUpdate → RepairRequest
+This maintains relational integrity and reflects real-world connections
+
+
+3. Data Validation
+
+Added `MinValueValidator` for numeric fields (e.g., bedrooms)
+This prevents invalid data entry
+
+4. Automatic Timestamps
+
+Used:
+
+ `auto_now_add=True` (creation time)
+ `auto_now=True` (update time)
+This enables tracking of records without manual input
+
+
+
+5. Model Ordering
+
+Added `Meta.ordering`:
+
+a) `RepairRequest` ordered by `-reported_at`
+b) `MaintenanceUpdate` ordered by `-created_at`
+This improves query efficiency and default display order
+
+
+6. Helper Methods
+
+Implemented:
+
+a)`is_open()` → checks if request is still active
+b) `get_absolute_url()` → returns detail page URL
+This encapsulates business logic inside models
+
+
+7. Improved Readability
+
+Added `__str__()` methods in all models
+This improves admin panel and debugging readability
+
+
+Consequences
+
+Positive:
+
+* Cleaner and more maintainable codebase
+* Better data consistency and validation
+* Improved performance through optimized queries
+* Easier integration with views and templates
+* More meaningful admin interface display
+
+Negative:
+
+* Slight increase in model complexity
+* Requires developers to understand relationships and choices
+
+
+
+Conclusion
+
+These enhancements improve the robustness and scalability of the housing management system while maintaining consistency with earlier architectural decisions defined in ADR-01 and ADR-02.
+
+This decision strengthens the foundation of the application without altering the overall system architecture.

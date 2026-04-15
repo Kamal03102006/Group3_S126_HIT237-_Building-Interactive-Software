@@ -1,0 +1,96 @@
+ADR-04: Use a Separate Model for Maintenance History Tracking
+
+Status  
+Accepted
+
+Context  
+The remote housing crisis application must not only store repair requests, but also track the progress and history of maintenance actions taken over time.
+
+A simple design option would be to store only one current status field inside the `RepairRequest` model. However, this approach would overwrite previous updates and make it difficult to preserve a maintenance history for each repair issue.
+
+Because the system requirement includes repair tracking and maintenance history, a design decision was needed on how to represent ongoing repair progress in the database.
+
+Decision  
+We decided to use a separate `MaintenanceUpdate` model linked to `RepairRequest` through a `ForeignKey` relationship.
+
+This design allows each repair request to have multiple maintenance updates, where each update stores:
+- a note describing the maintenance action
+- a status snapshot at that point in time
+- the person or role who updated it
+- the date and time of the update
+
+This approach creates a historical record of repair progress instead of replacing previous information.
+
+Rationale  
+A separate maintenance history model was chosen because it better reflects the real-world repair workflow.
+
+Why this approach was selected:
+- A repair issue may go through multiple stages such as reported, in progress, on hold, and completed
+- Each stage may involve different notes or actions
+- Historical updates must be preserved for tracking and accountability
+- The design supports future features such as audit trails, reporting, and progress timelines
+
+This approach also aligns with object-oriented design by giving maintenance history its own responsibility instead of combining all behavior into one model.
+
+Alternatives Considered  
+
+1. Store only one status field in `RepairRequest`
+Advantages:
+- Simple to implement
+- Fewer models required
+
+Disadvantages:
+- Overwrites earlier progress
+- No history of maintenance actions
+- Difficult to audit or review repair timeline
+- Does not fully support maintenance history requirement
+
+
+2. Store maintenance notes as plain text inside `RepairRequest`
+Advantages:
+- Easy to implement
+- Keeps information in one place
+
+Disadvantages:
+- Hard to structure
+- Difficult to query individual updates
+- Poor support for chronological repair tracking
+- Mixing multiple responsibilities into one model
+
+
+3. Use a separate `MaintenanceUpdate` model
+Advantages:
+- Preserves historical repair progress
+- Supports one-to-many relationship with repair requests
+- Easier to query and manage updates
+- Better object-oriented decomposition
+- Supports future extension
+
+Disadvantages:
+- Slightly more complex data model
+- Requires additional relationship handling
+
+
+Consequences  
+
+Positive:
+- Enables full maintenance history tracking
+- Avoids loss of past repair information
+- Improves auditability and accountability
+- Supports future reporting and timeline views
+- Reflects real-world repair workflow more accurately
+
+Negative:
+- Increases number of models in the system
+- Requires additional joins when retrieving repair history
+
+
+Code Reference  
+- `housing/models.py`  
+  - `RepairRequest` model  
+  - `MaintenanceUpdate` model  
+  - `ForeignKey` relationship between `MaintenanceUpdate` and `RepairRequest`
+
+
+Conclusion  
+Using a separate `MaintenanceUpdate` model provides a more scalable and accurate way to represent repair progress in the housing application. It supports the project requirement for maintenance history while maintaining clean object-oriented design.
