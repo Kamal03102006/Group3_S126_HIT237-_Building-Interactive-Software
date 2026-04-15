@@ -36,9 +36,6 @@ housing/views.py
 housing/templates/
 
 
--models.py
--views.py
--templates/
 
 CONSEQUENCES:
 
