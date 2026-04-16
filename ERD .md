@@ -1,11 +1,11 @@
-Entity Relationship Diagram(EDR)
-The EDR illustrates the databasestructure of the Remote Housing Repair Tracker, a Django-based web application design to manage housing repare request in a remort Northern Territory communities. The EDR defines the relationship between key entities and ensure data intergrity, scalability, and normalization
+Entity Relationship Diagram(ERD)
+The ERD illustrates the databasestructure of the Remote Housing Repair Tracker, a Django-based web application design to manage housing repare request in a remort Northern Territory communities. The ERD defines the relationship between key entities and ensure data intergrity, scalability, and normalization
 This diagram directly reflects the Django models implemented in the application.
 
 Visual ERD
 The visual ERD provides a clear and professional representation of the system's database schema.
 
-Mermaid EDR(Editable Version)
+Mermaid ERD(Editable Version)
 The Mermaid ERD offers a text-based, version-controlled representation that can be rendered directly within GitHub
 
 Entity Descriptions
