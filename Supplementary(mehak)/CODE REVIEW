@@ -1,0 +1,339 @@
+MEHAKPREET KAUR
+Code Review and Thought Process
+
+1. Introduction
+My primary responsibility was to establish the foundation of the Django application by handling the initial project setup and building the core backend data layer. My work focused on models.py and admin.py, because these files define the structure, relationships, and manageability of the system.
+The aim of my contribution was to ensure the application had a robust, scalable database design before other team members implemented views, forms, and templates. Since the project is based on a remote housing repair-tracking system, the data model needed to clearly reflect real-world entities and support future repair workflow.
+
+
+2. Project Setup Thought Process
+The first step in my contribution was setting up the Django project and application structure correctly. This was important because the rest of the team’s work depended on a stable, organized foundation.
+
+Why setup mattered
+I understood that if the project structure was not configured properly at the beginning, then:
+•	models would not migrate correctly 
+•	admin registration would fail 
+•	views and templates would be difficult to integrate later 
+•	Team collaboration through GitHub would become confusing 
+
+What I considered during setup
+During setup, I made sure the project had:
+•	a working Django project folder 
+•	a dedicated app called housing
+•	correct app registration in settings 
+•	migration support 
+•	an initial database connection 
+•	Git and GitHub integration for team collaboration 
+
+Code review perspective on setup
+From a code review perspective, the setup was clean because:
+•	Django’s default project organization was followed 
+•	the app was logically named according to the project domain 
+•	responsibilities were separated into config-level and app-level files 
+•	the foundation followed Django conventions, which reduces configuration mistakes 
+This setup stage may look simple, but it was important because it enabled the rest of the architecture to be built on top of a predictable and maintainable structure.
+
+
+3. Thought Process Behind models.py
+My main architectural contribution was in models.py.  I approached this by first translating the problem statement into real-world entities.
+
+The system requirement involved:
+•	remote communities 
+•	dwellings or houses 
+•	tenants 
+•	repair requests 
+•	maintenance history 
+From this, I identified that the project should not use one large table or one overloaded model. Instead, it needed multiple focused models that each represent a single domain concept.
+
+Why I used separate models
+I chose to create separate models because this approach:
+•	follows object-oriented decomposition 
+•	avoids duplication 
+•	makes relationships explicit 
+•	supports better querying later 
+•	reflects the real world more naturally 
+
+Instead of combining everything into one structure, I designed the following models:
+•	Community 
+•	Dwelling 
+•	Tenant 
+•	RepairRequest 
+•	MaintenanceUpdate 
+This made the system easier to explain, test, and extend.
+
+
+4. Code Review of community
+The community model was created to represent a remote housing location.
+
+Why this model was needed
+The housing theme is based on remote communities, so storing dwellings without a community would ignore the broader social and geographic structure of the domain.
+Review of the design
+
+The model includes:
+•	name 
+•	region 
+•	is_remote 
+•	notes 
+
+This is a good design because:
+•	it captures the essential identity of a community 
+•	it allows descriptive context through notes 
+•	it keeps the model simple without unnecessary complexity 
+
+Additional improvement
+I added:
+•	__str__() for readability 
+•	verbose_name_plural = "Communities" for better admin display 
+This improved admin usability and made the interface more professional.
+
+Thought process
+I intentionally kept community lightweight because its role is to act as a parent entity for dwellings, not to store operational maintenance data.
+
+
+5. Code Review of Dwelling
+The Dwelling model represents an individual house or housing unit.
+
+Why this model was needed
+A remote housing repair system is fundamentally concerned with physical dwellings. Each repair request must belong to a specific property, so Dwelling needed to exist as a central location-based entity.
+
+Review of the design
+The model includes:
+•	community 
+•	house_code 
+•	address 
+•	bedrooms 
+•	condition_status 
+•	created_at 
+
+This design is strong because:
+•	community links the dwelling to its location 
+•	house_code provides a unique identifier 
+•	address stores human-readable location data 
+•	bedrooms captures a useful property feature 
+•	condition_status supports housing condition monitoring 
+•	created_at helps track record creation 
+
+Validation and consistency
+I used:
+•	PositiveIntegerField 
+•	MinValueValidator(1) 
+This prevents invalid values such as zero or negative bedrooms.
+I also used CONDITION_CHOICES instead of free text for housing condition, which improves consistency and avoids messy data.
+
+Additional method
+I added active_repair_count() to support future business logic and make the model more useful. This method reflects the idea that a dwelling should know how many unresolved issues are currently associated with it.
+
+Thought process
+I treated Dwelling as one of the most important models because it is the connection point between physical housing, tenants, and repair requests.
+
+
+6. Code Review of Tenant
+The Tenant model stores resident information.
+
+Why this model was needed
+Tenants are central to the system because they are the people affected by maintenance issues and may submit repair requests.
+
+Review of the design
+The model includes:
+•	dwelling 
+•	full_name 
+•	phone 
+•	email 
+•	is_primary_tenant 
+•	moved_in_date 
+
+This is good because:
+•	every tenant belongs to a dwelling 
+•	contact information is supported 
+•	the system can distinguish the primary tenant 
+•	the move-in date adds historical context 
+
+Thought process
+I linked Tenant to Dwelling rather than directly to Community because the tenant’s most relevant relationship is the specific property they occupy.
+I also made some contact fields optional, because in real-world community housing data, all contact details may not always be available.
+
+
+7. Code Review of RepairRequest
+The RepairRequest model is the main operational entity of the system.
+
+Why this model was needed
+This model captures the actual maintenance issue being reported, such as:
+•	plumbing failure 
+•	broken doors 
+•	air conditioning problems 
+
+Review of the design
+The model includes:
+•	dwelling 
+•	tenant 
+•	title 
+•	description 
+•	category 
+•	priority 
+•	status 
+•	reported_at 
+•	updated_at 
+
+This design is strong because:
+•	each repair request belongs to a dwelling 
+•	it may optionally belong to a tenant 
+•	it stores both summary and detailed issue information 
+•	it supports prioritization and workflow tracking 
+•	it preserves reporting and update timestamps 
+
+Use of choices
+I added:
+•	CATEGORY_CHOICES 
+•	PRIORITY_CHOICES 
+•	STATUS_CHOICES 
+
+This was an important decision because it:
+•	improves validation 
+•	prevents inconsistent values 
+•	supports cleaner filtering and admin display 
+
+Optional tenant link
+I made tenant nullable because a repair request may still need to exist even if no tenant is attached or known. This improves flexibility without blocking the process.
+
+Additional methods
+I added:
+•	get_absolute_url() 
+•	is_open() 
+These methods improve future integration with views and business logic.
+
+Thought process
+I designed RepairRequest as a workflow-centered model. It needed to be detailed enough for maintenance tracking, but not overloaded with history or unrelated information.
+
+
+8. Code Review of MaintenanceUpdate
+The MaintenanceUpdate model stores the history of changes made to a repair request.
+
+Why this model was needed
+This was one of the most important architectural decisions I made.
+Instead of storing only one current repair status inside RepairRequest, I created a separate MaintenanceUpdate model so that the system can preserve a timeline of progress.
+Review of the design
+
+The model includes:
+•	repair_request 
+•	note 
+•	status_snapshot 
+•	updated_by 
+•	created_at 
+
+This is good because:
+•	one repair request can have many updates 
+•	each update stores a note and point-in-time status 
+•	the system can show repair history instead of overwriting old information 
+
+Use of status_snapshot
+I linked status_snapshot to RepairRequest.STATUS_CHOICES to keep status values consistent across the system.
+
+Ordering
+I added ordering so the latest updates appear first. This improves usability and makes repair progress easier to review.
+
+Thought process
+I deliberately separated MaintenanceUpdate from RepairRequest because the requirement mentions status tracking and maintenance history. A single status field alone would not satisfy that requirement properly.
+This was a strong architectural decision because it improves accountability, auditability, and extensibility.
+
+
+9. Relationship Design Thought Process
+The system uses ForeignKey relationships because the domain naturally contains one-to-many structures.
+
+Relationships implemented
+•	one Community → many Dwellings 
+•	one Dwelling → many Tenants 
+•	one Dwelling → many RepairRequests 
+•	one RepairRequest → many MaintenanceUpdates 
+
+Why this was a good decision
+This design:
+•	reduces duplication 
+•	makes the schema normalized 
+•	supports efficient future querying 
+•	matches the real-world problem 
+
+I also used related_name so reverse access would be meaningful and readable, such as:
+•	community.dwellings 
+•	dwelling.tenants 
+•	dwelling.repair_requests 
+•	repair_request.updates 
+From a code review perspective, this improved readability and future maintainability.
+
+
+10. Code Review of admin.py
+After building the models, I configured admin.py so the data layer could be managed and tested through Django’s admin interface.
+
+Why admin configuration mattered
+I did not treat admin as just a small extra feature. For this assignment, admin was important because it allowed me to:
+•	verify that models were registered correctly 
+•	test data entry without custom views 
+•	confirm relationships were working 
+•	inspect data in a structured way 
+
+What I configured
+I registered the core models:
+•	Community 
+•	Dwelling 
+•	Tenant 
+•	RepairRequest 
+•	MaintenanceUpdate 
+I also improved usability by using:
+•	list_display 
+•	search_fields 
+•	list_filter 
+
+Why this improved the project
+These admin improvements helped in two ways:
+1.	they made manual testing easier 
+2.	they made the backend more professional and maintainable 
+For example:
+•	search fields allow quick lookup of records 
+•	list filters support category/status-based browsing 
+•	list display shows important columns clearly 
+
+Thought process
+I saw admin.py as both a testing tool and a management interface. It was especially valuable during early development because it allowed the team to work with real data before all user-facing pages were complete.
+
+
+11. Testing Thought Process
+I used Django admin to test the backend layer I built.
+
+What I tested
+I checked that:
+•	models appeared in the admin panel 
+•	tables existed after migration 
+•	records could be added and edited 
+•	foreign key relationships worked correctly 
+•	choices rendered properly 
+•	__str__() methods displayed useful values 
+•	ordering behaved as expected 
+
+Why this testing was important
+Because my role was focused on the data layer, admin testing gave direct proof that:
+•	the schema was valid 
+•	the ORM mappings worked 
+•	the models were ready for integration with forms and views 
+This kind of testing is especially appropriate for backend-focused contributions.
+
+
+12. Design Quality Review
+From a code review perspective, my contribution is strong because the code demonstrates:
+Data encapsulation
+Each model stores information for one focused concept.
+Object-oriented decomposition
+The system is broken into meaningful classes rather than one monolithic structure.
+Relationship modelling
+The use of ForeignKey relationships reflects the real-world housing domain accurately.
+Validation and consistency
+Choices and validators prevent invalid and inconsistent data.
+Maintainability
+The code is readable, modular, and easy to extend.
+Django best practices
+The implementation follows standard Django ORM patterns and clean project structure.
+
+
+
+
+
+
+
