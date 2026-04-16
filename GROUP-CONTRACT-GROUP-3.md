@@ -153,7 +153,13 @@ Deadline: May 28
 - Minimum 2 meaningful commits per member per week to ensure fair contribution
 - Use clear commit messages to avoid any confusion
 
-#Agreement:
+#Roles devision:
+Mehakpreet Kaur: Project setup, models.py, admin.py
+Kamalpreet: Templates, forms.py
+Harsimran Singh: views.py, urls.py
+Tanu Salaria: ERD, class diagram, documentation
+
+#Agreement: 
 By contributing to this repository all the members agree to the terms and conditions outlined above.
 
 Member Num.      Name               Signature                 
