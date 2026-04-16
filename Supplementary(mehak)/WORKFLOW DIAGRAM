@@ -1,0 +1,13 @@
+User
+ ↓
+Fill Repair Request Form
+ ↓
+Form Validation (forms.py)
+ ↓
+View Processes Data (views.py)
+ ↓
+Save to Database (models.py)
+ ↓
+Display Data (templates)
+ ↓
+Admin Panel (for management/testing)
