@@ -1,0 +1,25 @@
+Django Philosophies Applied 
+
+1. DRY (Don’t Repeat Yourself)
+Used separate models and ForeignKey relationships to avoid data duplication and ensure consistency.
+
+2. Explicit is Better Than Implicit
+Used clear field names, relationships, and helper methods like is_open() for better readability.
+
+3.Loose Coupling
+Designed independent models (Community, Dwelling, Tenant, RepairRequest, MaintenanceUpdate) to keep components flexible.
+
+4. High Cohesion
+Each model has a single responsibility (e.g., Tenant handles resident data, RepairRequest handles issues).
+
+5. Model-Centric Design
+Added logic inside models using methods (active_repair_count, get_absolute_url) and validators.
+
+6. Convention Over Configuration
+Followed Django’s default structure (models.py, admin.py) and standard practices.
+
+7. Admin as a Powerful Tool
+Used Django admin for testing, data entry, and management with list_display, search_fields, and filters.
+
+8. Database-Driven Design
+Designed normalized schema using ForeignKey relationships and migrations for structured data storage.
