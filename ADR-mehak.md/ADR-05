@@ -1,15 +1,16 @@
 ADR-05: Authentication System Design
 
 Date
-23 May 2026
+18 May 2026
 
 Status
 Accepted
 
-Related ADRs
-- ADR-01: Initial Django Application Structure
-- ADR-06: Permission Boundary and Access Control
-- ADR-08: Security Middleware and Session Architecture
+Related ADRs:
+- ADR-01: Use Django MVT Architecture
+- ADR-02: Use Related Domain Models with ForeignKey Relationships
+- ADR-03: Enhancement of Data Model Structure and Relationships
+- ADR-04: Use Separate Model for Maintenance History Tracking
 
 Context
 In Assessment 2, the Remote Housing Repair Tracker functioned as an early prototype where users could access repair request pages without authentication. For Assessment 4, the application needed to mature into a more realistic system by introducing authentication, access control, and documented security reasoning.
