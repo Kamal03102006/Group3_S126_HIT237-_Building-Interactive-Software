@@ -1,7 +1,7 @@
 ADR-01: USE DJANGO MVT ARCHITECTURE
 
 Assessment 4 Status Update
-Update date: 20 May 2026
+Update date: 16 May 2026
 Status: Accepted and extended
 
 Assessment 4 Extension
@@ -38,13 +38,11 @@ CODE REFERENCE:
 housing/models.py: 1-119
 housing/views.py: 1-94
 housing/templates/: base.html = 1-185
-                    maintenanceupdate_form.html = 1-28
-                    repairrequest_detail.html = 1-70
-                    repairrequest_form.html = 1-33
-                    repairrequest_list.html = 1-68
-
-
-
+maintenanceupdate_form.html = 1-28
+repairrequest_detail.html = 1-70
+repairrequest_form.html = 1-33
+repairrequest_list.html = 1-68
+                    
 CONSEQUENCES:
 
 Positive:
