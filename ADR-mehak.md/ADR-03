@@ -1,7 +1,11 @@
 ADR-03: Enhancement of Data Model Structure and Relationships in Housing Application.
 
-Status
-Accepted
+Assessment 4 Status Update
+Update date: 21 May 2026
+Status: Accepted and extended
+
+Assessment 4 Extension
+This decision is extended by ADR-07, which applies the same form-validation approach to user registration and authentication.
 
 Context
 After implementing the initial system design (ADR-01) and establishing core architectural patterns (ADR-02), the project required improvements in the data model to better represent real-world housing management scenarios.
