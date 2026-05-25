@@ -31,8 +31,12 @@ class RegisterView(CreateView):
 
 class MaintenanceStaffRequiredMixin(UserPassesTestMixin):
     """
-    Allows access only to users in Maintenance Staff group
-    or Django staff users.
+    Allows access to Maintenance Staff , Housing Manager, or Django staff users.
+    Role design:
+    - Tenant: can create and view repair requests
+    - Maintenance Staff: can view and update repair requests, add maintenance updates
+    - Housing Manager: can manage reair workflow
+    - Admin/Staff: can manage everything through Django admin interface
     """
 
     def test_func(self):
@@ -41,7 +45,9 @@ class MaintenanceStaffRequiredMixin(UserPassesTestMixin):
             user.is_authenticated
             and (
                 user.is_staff
-                or user.groups.filter(name="Maintenance Staff").exists()
+                or user.groups.filter(
+                    name__in=["Maintenance Staff", "Housing Manager"]
+                ).exists()
             )
         )
 

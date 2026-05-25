@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.urls import reverse
 
@@ -49,6 +50,14 @@ class Dwelling(models.Model):
 
 
 class Tenant(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="tenant_profile",
+        null=True,
+        blank=True
+    )
+
     dwelling = models.ForeignKey(
         Dwelling,
         on_delete=models.CASCADE,
@@ -127,7 +136,7 @@ class RepairRequest(models.Model):
         ordering = ["-reported_at"]
 
     def get_absolute_url(self):
-        return reverse("request-detail", kwargs={"pk": self.pk})
+        return reverse("repairrequest-detail", kwargs={"pk": self.pk})
 
     def is_open(self):
         return self.status not in ["completed", "cancelled"]
