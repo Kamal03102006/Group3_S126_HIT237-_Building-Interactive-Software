@@ -1,7 +1,11 @@
 ADR-02: Use Related Domain Models with ForeignKey Relationships
 
-Status
-Accepted
+Assessment 4 Status Update
+Update date: 16 May 2026
+Status: Accepted and extended
+
+Assessment 4 Extension
+This decision is still accepted. The core domain model remains valid and is now protected by authentication and permission boundaries described in ADR-05 and ADR-06.
 
 Context
 The remote housing crisis application must allow tenants in remote communities to report housing repair issues, track the status of those requests, and view the maintenance history for their dwelling.

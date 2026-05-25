@@ -1,0 +1,114 @@
+ADR-06: Permission Boundary and Access Control
+
+Date
+19 May 2026
+
+Status
+Accepted
+
+Related ADRs
+- ADR-05: Authentication System Design
+- ADR-08: Security Middleware and Session Architecture
+
+Context
+After authentication was introduced, the system required clear authorisation rules. Authentication confirms who the user is, but authorisation controls what that user is allowed to do.
+
+The application has actions with different levels of risk. Viewing or creating a repair request is lower risk, while editing repair requests or adding maintenance updates can affect the official maintenance history. Therefore, these actions should not be available to every user.
+
+Problem
+Without permission boundaries:
+- any logged-in user could edit repair records
+- maintenance history could be changed by inappropriate users
+- the system would not reflect real-world responsibility levels
+- permission testing would be weak
+- sensitive workflow actions would not be protected
+
+Alternatives Considered
+
+Option 1: Use only `LoginRequiredMixin`
+This would stop anonymous users, but it would not distinguish between normal users and maintenance staff.
+
+Option 2: Use function decorators
+Decorators are useful for function-based views. However, this project uses class-based views, so decorators would be less consistent and could create repeated code.
+
+Option 3: Use Django permission mixins
+Django mixins work naturally with class-based views. They allow reusable access control logic and support separation of concerns.
+
+Option 4: Use object-level permissions for every request
+This would be more granular but more complex. For this project stage, group and staff-based permissions provide an appropriate balance of security and simplicity.
+
+Decision
+We decided to use class-based permission mixins.
+
+The implementation uses:
+- `LoginRequiredMixin`
+- `UserPassesTestMixin`
+- custom `MaintenanceStaffRequiredMixin`
+- Django user groups
+
+The main group introduced for this stage is:
+
+```text
+Maintenance Staff
+
+Permission rules:
+
+-anonymous users are redirected to login
+-logged-in users can view repair requests
+-logged-in users can create repair requests
+-only staff or Maintenance Staff users can edit repair requests
+-only staff or Maintenance Staff users can add maintenance updates
+
+Code References
+housing/views.py
+-MaintenanceStaffRequiredMixin
+-RepairRequestListView
+-RepairRequestDetailView
+-RepairRequestCreateView
+-RepairRequestUpdateView
+-MaintenanceUpdateCreateView
+housing/urls.py
+-protected repair and maintenance update URLs
+Django Admin
+-user group configuration
+
+Threat-Informed Design Thinking
+
+This decision reduces the risk of:
+
+-unauthorised users editing repair requests
+-normal users changing maintenance progress
+-accidental or malicious manipulation of repair history
+-anonymous users accessing protected workflows
+
+The highest-risk actions are protected behind staff/maintenance staff checks.
+
+Consequences
+
+Positive
+-introduces clear authorisation rules
+-supports role-based access
+-improves security
+-supports meaningful permission tests
+-keeps permission logic reusable
+-matches Django class-based view architecture
+Negative
+-requires group setup in Django admin
+-permissions must be tested carefully
+-incorrect group assignment can block valid users
+
+Testing Strategy
+
+Permission tests should verify:
+
+-anonymous users are redirected to login
+-logged-in users can view repair requests
+-logged-in users can create repair requests
+-normal users cannot edit repair requests
+-normal users cannot add maintenance updates
+-Maintenance Staff users can edit repair requests
+-Maintenance Staff users can add maintenance updates
+
+Final Outcome
+
+Permission boundaries improved the realism and security of the system. The design now separates normal user actions from staff-level repair management actions, supporting the Authentication and Authorisation Architecture rubric.

@@ -1,0 +1,102 @@
+ADR-07: User Registration and Validation Strategy
+
+Date
+20 May 2026
+
+Status
+Accepted
+
+Related ADRs
+- ADR-03: Enhancement of Data Model Structure
+- ADR-05: Authentication System Design
+
+Context
+The application required a way for users to create accounts and access protected repair request functionality. Since the project already used Django forms for repair request validation, the registration process needed to follow the same separation of concerns.
+
+Assessment 4 also requires stronger architectural reasoning, so registration was not treated as only a template feature. It was documented as part of the authentication and validation architecture.
+
+Problem
+Without a structured registration form:
+- user creation logic could become duplicated
+- password validation could be weak
+- registration errors could be handled inconsistently
+- views could become overloaded with validation logic
+- the application would not have a clear registration workflow
+
+Alternatives Considered
+
+Option 1: Manual HTML registration form
+This would require custom password handling and validation logic. It would increase security risk and duplicate existing Django functionality.
+
+Option 2: Use Django `UserCreationForm` directly in the view
+This is secure, but it gives less control over future extensions such as adding an email field.
+
+Option 3: Extend `UserCreationForm` using a custom `RegisterForm`
+This keeps Django’s secure password validation while allowing the project to customise registration fields.
+
+Decision
+We created a custom `RegisterForm` that extends Django’s `UserCreationForm`.
+
+The form includes:
+- username
+- email
+- password
+- password confirmation
+
+This approach follows the same form-based validation pattern used for:
+- `RepairRequestForm`
+- `MaintenanceUpdateForm`
+
+Code References
+- `housing/forms.py`
+  - `RegisterForm`
+  - `RepairRequestForm`
+  - `MaintenanceUpdateForm`
+- `housing/views.py`
+  - `RegisterView`
+- `housing/templates/housing/registration/register.html`
+- `config/settings.py`
+  - Django password validators
+
+Design Reasoning
+The validation responsibility was kept inside forms rather than templates or views.
+
+This supports separation of concerns:
+- templates display the form
+- forms validate input
+- views process valid form submissions
+- models store data
+
+Threat-Informed Design Thinking
+The registration design reduces risks such as:
+- weak password creation
+- inconsistent user account creation
+- unsafe manual password handling
+- duplicated validation logic
+
+Django’s built-in validators provide protection against common weak passwords and invalid password confirmation.
+
+Consequences
+
+Positive
+- secure password validation
+- reusable registration form
+- clearer separation of concerns
+- easier testing of registration behaviour
+- consistent with existing form architecture
+
+Negative
+- still uses Django’s default `User` model
+- future profile or role fields may require extension
+- role assignment still requires admin/group configuration at this stage
+
+Testing Strategy
+Registration tests should verify:
+- valid users can register
+- duplicate usernames are rejected
+- passwords must match
+- weak passwords are rejected
+- successful registration redirects to login
+
+Final Outcome
+The registration strategy improved the authentication workflow while keeping validation logic clean and reusable. This supports both authentication requirements and the documentation/process expectations for Assessment 4.

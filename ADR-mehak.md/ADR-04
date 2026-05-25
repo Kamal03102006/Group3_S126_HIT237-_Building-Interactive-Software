@@ -1,7 +1,11 @@
 ADR-04: Use a Separate Model for Maintenance History Tracking
 
-Status  
-Accepted
+Assessment 4 Status Update
+Update date: 17 May 2026
+Status: Accepted and extended
+
+Assessment 4 Extension
+This decision is extended by ADR-06, which restricts maintenance update creation to Maintenance Staff or staff users.
 
 Context  
 The remote housing crisis application must not only store repair requests, but also track the progress and history of maintenance actions taken over time.

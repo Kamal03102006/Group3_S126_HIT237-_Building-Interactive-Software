@@ -1,0 +1,109 @@
+ADR-05: Authentication System Design
+
+Date
+18 May 2026
+
+Status
+Accepted
+
+Related ADRs:
+- ADR-01: Use Django MVT Architecture
+- ADR-02: Use Related Domain Models with ForeignKey Relationships
+- ADR-03: Enhancement of Data Model Structure and Relationships
+- ADR-04: Use Separate Model for Maintenance History Tracking
+
+Context
+In Assessment 2, the Remote Housing Repair Tracker functioned as an early prototype where users could access repair request pages without authentication. For Assessment 4, the application needed to mature into a more realistic system by introducing authentication, access control, and documented security reasoning.
+
+The application manages housing repair information, tenant information, dwelling information, and maintenance progress. This type of data should not be freely available to anonymous users. The system therefore needed a secure way to identify users and control access to repair workflows.
+
+Problem
+Without authentication:
+- anonymous users could access internal repair information
+- user actions could not be linked to accounts
+- permission boundaries could not be tested properly
+- the application did not reflect a realistic repair management workflow
+- higher-risk actions such as editing repairs were not protected
+
+Alternatives Considered
+
+Option 1: Keep the system public
+This option would be simple and require minimal code change. However, it does not meet Assessment 4 requirements and creates security risks because anonymous users could access repair data.
+
+Option 2: Build a custom authentication system
+A custom authentication system would provide more control, but it would increase risk because password handling, sessions, and login security are complex. It would also duplicate secure functionality already provided by Django.
+
+Option 3: Use token-based authentication
+Token authentication is useful for APIs and mobile clients. However, this project is a server-rendered Django web application using templates and forms. Session authentication is simpler, more suitable, and better aligned with Django’s default architecture.
+
+Option 4: Use Django’s built-in authentication system
+Django provides tested authentication tools including login, logout, password hashing, session handling, CSRF support, and user creation forms. This approach follows Django conventions and reduces security risk.
+
+Decision
+We decided to use Django’s built-in authentication system.
+
+The implementation uses:
+- `LoginView` for login
+- `LogoutView` for logout
+- `UserCreationForm` through `RegisterForm` for registration
+- Django session authentication
+- redirect settings in `settings.py`
+- authentication templates for login and registration
+
+This decision supports secure user access while keeping the system maintainable.
+
+Code References
+- `config/settings.py`
+  - `LOGIN_URL`  
+  - `LOGIN_REDIRECT_URL`  
+  - `LOGOUT_REDIRECT_URL`  
+  - `AuthenticationMiddleware`
+  - `SessionMiddleware`
+- `housing/forms.py`
+  - `RegisterForm`
+- `housing/views.py`
+  - `UserLoginView`
+  - `UserLogoutView`
+  - `RegisterView`
+- `housing/urls.py`
+  - `/accounts/login/`
+  - `/accounts/logout/`
+  - `/accounts/register/`
+- `housing/templates/housing/registration/login.html`
+- `housing/templates/housing/registration/register.html`
+
+Threat-Informed Design Thinking
+The authentication design addresses the following risks:
+- anonymous access to repair and tenant-related data
+- fake or unauthenticated repair submissions
+- inability to trace user activity
+- exposure of internal repair workflows
+
+Using Django’s built-in authentication reduces the risk of insecure password handling and unreliable session management.
+
+Consequences
+
+Positive
+- improves security
+- supports realistic user workflows
+- enables permission-based testing
+- follows Django conventions
+- avoids custom password/security implementation
+- supports future role-based features
+
+Negative
+- adds more templates and views
+- users must log in before accessing protected pages
+- requires permission testing to confirm correct access behaviour
+
+Testing Strategy
+This decision should be tested by verifying:
+- users can register
+- users can log in
+- invalid login details are rejected
+- users are redirected after login
+- users are redirected after logout
+- anonymous users cannot access protected pages
+
+Final Outcome
+Authentication changed the application from an open prototype into a more secure system with identifiable users and controlled access. This supports Assessment 4 requirements and provides a foundation for permission boundaries, service logic, exception handling, and testing.
