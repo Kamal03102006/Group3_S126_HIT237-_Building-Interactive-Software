@@ -1,17 +1,16 @@
-# Architectural Decision Record 10: Add Domain Exceptions for Repair Workflow Errors
+# Architectural Decision Record 07: Add Domain Exceptions for Repair Workflow Errors
 
 ## Date
 17/05/2026
 
 ## Status
-Proposed and partially implemented – exception classes added; service/view integration planned.
+Partially implemented – exception classes integrated with service-layer workflows and authenticated repair handling; final testing pending.
 
 ## Related Previous ADRs
 - Assessment 2 ADR on ModelForms and validation
 - Assessment 2 ADR on Class-Based Views
 - Assessment 2 ADR on QuerySets and repair request workflows
 
----
 
 ## Context
 
@@ -19,9 +18,8 @@ In Assessment 2, the Remote Housing Crisis project used Django models, forms and
 
 For Assessment 4, the same project is being extended with authentication, service-layer architecture, permission boundaries, exception handling and testing. These new requirements introduce more complex workflow situations, such as restricted access, invalid status changes and missing tenant-user relationships.
 
-To prepare for this growth, the project needs a clearer way to represent domain-specific workflow errors.
+To support this growth, the project required a clearer way to represent domain-specific workflow errors.
 
----
 
 ## Assessment 2 Limitation
 
@@ -35,7 +33,6 @@ This meant:
 
 This was acceptable for Assessment 2, but it is not strong enough for the Assessment 4 requirements.
 
----
 
 ## Alternatives Considered
 
@@ -49,18 +46,16 @@ This would allow errors to be caught, but the handling could become inconsistent
 
 ### Option 3: Create domain-specific exception classes
 
-This gives the project a clear and reusable structure for workflow errors. It also prepares the application for later service-layer integration and meaningful testing.
+This gives the project a clear and reusable structure for workflow errors. It also prepares the application for service-layer integration and meaningful testing.
 
----
 
 ## Decision
 
-The project will introduce a dedicated exception module:
+The project introduced a dedicated exception module:
 
 `housing/exceptions.py`
 
-The following exception classes have been added:
-
+The following exception classes were implemented:
 - `HousingDomainError`
 - `TenantProfileMissing`
 - `PermissionDeniedForRepair`
@@ -69,22 +64,19 @@ The following exception classes have been added:
 
 These exceptions represent business-rule and workflow errors in the housing repair system.
 
-At this stage, the exception classes have been created first. Their integration into the service layer, views and tests is planned for the next development step.
-
----
+The exception classes are now integrated with service-layer workflow functions and authenticated repair handling. Service functions raise domain-specific exceptions when invalid repair statuses, missing tenant profiles or permission violations occur. Views catch these exceptions and return user-facing feedback through Django messages.
 
 ## Code References
 
 Implemented:
 - `housing/exceptions.py`
-
-Planned integration:
 - `housing/services/repair_request_service.py`
 - `housing/views.py`
+
+Planned testing:
 - `housing/tests/test_services.py`
 - `housing/tests/test_permissions.py`
 
----
 
 ## Consequences
 
@@ -92,16 +84,17 @@ Planned integration:
 
 - The project now has a clear foundation for workflow error handling.
 - Future service functions can raise meaningful domain-specific errors.
-- Tests can later check specific exception behaviour.
+- Workflow errors are now separated from generic form validation.
+- Service-layer functions can now raise domain-specific exceptions consistently.
+- Tests can check specific exception behaviour.
 - The design supports stronger architectural separation for Assessment 4.
 
 ### Negative
 
-- The exception classes are not fully useful until integrated with services and views.
 - Team members must use the same exception structure consistently.
-- Additional tests will be needed once the service layer is connected.
+- Additional tests are required to verify exception handling behaviour.
+- Some exceptions depend on authentication-aware workflows being configured correctly.
 
----
 
 ## Testing Implications
 
@@ -111,9 +104,6 @@ Future tests should verify that:
 - users without tenant profiles raise `TenantProfileMissing`
 - views handle service exceptions without causing unhandled server errors
 
-These tests are planned for the testing stage after the service layer and authentication workflow are integrated.
-
----
 
 ## Assessment 4 Reflection
 
@@ -121,4 +111,4 @@ This decision extends the Assessment 2 architecture rather than replacing it.
 
 Assessment 2 focused on basic Django model, form and view functionality. Assessment 4 requires a more mature architecture with authentication, permissions, service-layer logic and testable workflow behaviour.
 
-Adding domain exceptions now creates a foundation for the next stage of development, where repair workflow rules will be moved into services and tested more directly.
+Adding domain exceptions improved the separation between workflow logic and presentation logic while preparing the application for more meaningful automated testing.
