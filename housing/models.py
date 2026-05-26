@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Count
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.urls import reverse
@@ -44,9 +45,7 @@ class Dwelling(models.Model):
         return f"{self.house_code} - {self.address}"
 
     def active_repair_count(self):
-        return self.repair_requests.exclude(
-            status__in=["completed", "cancelled"]
-        ).count()
+        return self.repair_requests.open().count()
 
 
 class Tenant(models.Model):
@@ -57,7 +56,6 @@ class Tenant(models.Model):
         null=True,
         blank=True
     )
-
     dwelling = models.ForeignKey(
         Dwelling,
         on_delete=models.CASCADE,
@@ -71,6 +69,51 @@ class Tenant(models.Model):
 
     def __str__(self):
         return self.full_name
+
+
+class RepairRequestQuerySet(models.QuerySet):
+    def with_related_data(self):
+        return self.select_related(
+            "dwelling",
+            "tenant",
+            "dwelling__community"
+        )
+
+    def open(self):
+        return self.exclude(status__in=["completed", "cancelled"])
+
+    def urgent(self):
+        return self.filter(priority="urgent")
+
+    def completed(self):
+        return self.filter(status="completed")
+
+    def in_progress(self):
+        return self.filter(status="in_progress")
+
+    def for_tenant_user(self, user):
+        return self.filter(tenant__user=user)
+
+    def status_summary(self):
+        return (
+            self.values("status")
+            .annotate(total=Count("id"))
+            .order_by("status")
+        )
+
+    def priority_summary(self):
+        return (
+            self.values("priority")
+            .annotate(total=Count("id"))
+            .order_by("priority")
+        )
+
+    def community_summary(self):
+        return (
+            self.values("dwelling__community__name")
+            .annotate(total=Count("id"))
+            .order_by("dwelling__community__name")
+        )
 
 
 class RepairRequest(models.Model):
@@ -98,6 +141,8 @@ class RepairRequest(models.Model):
         ("cancelled", "Cancelled"),
     ]
 
+    objects = RepairRequestQuerySet.as_manager()
+
     dwelling = models.ForeignKey(
         Dwelling,
         on_delete=models.CASCADE,
@@ -112,20 +157,9 @@ class RepairRequest(models.Model):
     )
     title = models.CharField(max_length=150)
     description = models.TextField()
-    category = models.CharField(
-        max_length=20,
-        choices=CATEGORY_CHOICES
-    )
-    priority = models.CharField(
-        max_length=20,
-        choices=PRIORITY_CHOICES,
-        default="medium"
-    )
-    status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default="reported"
-    )
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default="medium")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="reported")
     reported_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
