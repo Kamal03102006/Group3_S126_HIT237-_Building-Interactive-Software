@@ -14,6 +14,8 @@ from .forms import (
 )
 from .models import RepairRequest, MaintenanceUpdate
 from .services.dashboard_service import get_dashboard_summary_for_user
+from .services.maintenance_service import add_maintenance_update
+from .services.permission_service import user_is_staff_or_manager
 from .services.repair_request_service import (
     create_repair_request_for_user,
     get_filtered_repair_requests,
@@ -46,26 +48,10 @@ class MaintenanceStaffRequiredMixin(UserPassesTestMixin):
     """
     Allows access to Maintenance Staff, Housing Manager,
     or Django staff users.
-
-    Role design:
-    - Tenant: can create and view own repair requests
-    - Maintenance Staff: can view and update repair requests
-    - Housing Manager: can manage repair workflow and summaries
-    - Admin/Staff: can manage everything through Django admin
     """
 
     def test_func(self):
-        user = self.request.user
-
-        return (
-            user.is_authenticated
-            and (
-                user.is_staff
-                or user.groups.filter(
-                    name__in=["Maintenance Staff", "Housing Manager"]
-                ).exists()
-            )
-        )
+        return user_is_staff_or_manager(self.request.user)
 
 
 class AdminRequiredMixin(UserPassesTestMixin):
@@ -95,18 +81,13 @@ class RepairRequestListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         context["status_choices"] = RepairRequest.STATUS_CHOICES
         context["priority_choices"] = RepairRequest.PRIORITY_CHOICES
         context["selected_status"] = self.request.GET.get("status", "")
         context["selected_priority"] = self.request.GET.get("priority", "")
-
-        context["dashboard_summary"] = (
-            get_dashboard_summary_for_user(
-                self.request.user
-            )
+        context["dashboard_summary"] = get_dashboard_summary_for_user(
+            self.request.user
         )
-
         return context
 
 
@@ -127,28 +108,30 @@ class RepairRequestCreateView(LoginRequiredMixin, CreateView):
     form_class = TenantRepairRequestForm
     template_name = "housing/repairrequest_form.html"
 
+    def dispatch(self, request, *args, **kwargs):
+        if user_is_staff_or_manager(request.user):
+            messages.error(
+                request,
+                "Staff and managers should update existing repair requests instead of submitting tenant requests."
+            )
+            return redirect("repairrequest-list")
+
+        return super().dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         try:
             self.object = create_repair_request_for_user(
                 self.request.user,
                 form
             )
-
             messages.success(
                 self.request,
                 "Repair request submitted successfully."
             )
-
-            return redirect(
-                self.object.get_absolute_url()
-            )
+            return redirect(self.object.get_absolute_url())
 
         except HousingDomainError as error:
-            messages.error(
-                self.request,
-                str(error)
-            )
-
+            messages.error(self.request, str(error))
             return redirect("repairrequest-list")
 
 
@@ -172,7 +155,6 @@ class RepairRequestUpdateView(
             self.request,
             "Repair request updated successfully."
         )
-
         return super().form_valid(form)
 
 
@@ -190,39 +172,36 @@ class MaintenanceUpdateCreateView(
             request.user,
             self.kwargs["pk"]
         )
-
-        return super().dispatch(
-            request,
-            *args,
-            **kwargs
-        )
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        form.instance.repair_request = self.repair_request
+        try:
+            add_maintenance_update(
+                user=self.request.user,
+                repair_request=self.repair_request,
+                note=form.cleaned_data["note"],
+                status_snapshot=form.cleaned_data["status_snapshot"],
+            )
+            messages.success(
+                self.request,
+                "Maintenance update added successfully."
+            )
+            return redirect(self.get_success_url())
 
-        form.instance.updated_by = (
-            self.request.user.get_full_name()
-            or self.request.user.username
-        )
-
-        messages.success(
-            self.request,
-            "Maintenance update added successfully."
-        )
-
-        return super().form_valid(form)
+        except HousingDomainError as error:
+            messages.error(self.request, str(error))
+            return redirect(
+                "repairrequest-detail",
+                pk=self.repair_request.pk
+            )
 
     def get_success_url(self):
         return reverse(
             "repairrequest-detail",
-            kwargs={
-                "pk": self.repair_request.pk
-            }
+            kwargs={"pk": self.repair_request.pk}
         )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         context["repair_request"] = self.repair_request
-
         return context
