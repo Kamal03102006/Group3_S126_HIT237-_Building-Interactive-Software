@@ -1,57 +1,27 @@
 from django.db.models import Count
 
-from housing.models import RepairRequest
+from housing.services.repair_request_service import get_visible_repair_requests
 
 
-def get_repair_status_summary():
+def get_dashboard_summary_for_user(user):
     """
-    Returns number of repair requests grouped by status.
+    Returns dashboard statistics based on the repairs visible to the user.
     """
-    return (
-        RepairRequest.objects
-        .values("status")
-        .annotate(total=Count("id"))
-        .order_by("status")
-    )
+    queryset = get_visible_repair_requests(user)
 
-
-def get_repair_priority_summary():
-    """
-    Returns number of repair requests grouped by priority.
-    """
-    return (
-        RepairRequest.objects
-        .values("priority")
-        .annotate(total=Count("id"))
-        .order_by("priority")
-    )
-
-
-def get_community_repair_summary():
-    """
-    Returns number of repair requests grouped by community.
-    """
-    return (
-        RepairRequest.objects
-        .values("dwelling__community__name")
-        .annotate(total=Count("id"))
-        .order_by("dwelling__community__name")
-    )
-
-
-def get_basic_dashboard_summary():
-    """
-    Returns basic dashboard metrics that do not depend on tenant-user linking.
-    """
     return {
-        "total_repairs": RepairRequest.objects.count(),
-        "open_repairs": RepairRequest.objects.exclude(
+        "total_repairs": queryset.count(),
+        "open_repairs": queryset.exclude(
             status__in=["completed", "cancelled"]
         ).count(),
-        "urgent_repairs": RepairRequest.objects.filter(
-            priority="urgent"
-        ).count(),
-        "status_summary": get_repair_status_summary(),
-        "priority_summary": get_repair_priority_summary(),
-        "community_summary": get_community_repair_summary(),
+        "urgent_repairs": queryset.filter(priority="urgent").count(),
+        "status_summary": queryset.values("status")
+        .annotate(total=Count("id"))
+        .order_by("status"),
+        "priority_summary": queryset.values("priority")
+        .annotate(total=Count("id"))
+        .order_by("priority"),
+        "community_summary": queryset.values("dwelling__community__name")
+        .annotate(total=Count("id"))
+        .order_by("dwelling__community__name"),
     }
