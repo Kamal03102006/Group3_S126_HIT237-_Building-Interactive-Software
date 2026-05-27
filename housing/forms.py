@@ -5,12 +5,35 @@ from django.contrib.auth.models import User
 from .models import RepairRequest, MaintenanceUpdate
 
 
-class RepairRequestForm(forms.ModelForm):
+class TenantRepairRequestForm(forms.ModelForm):
+    """
+    Form used by tenants when creating repair requests.
+    The tenant, dwelling and status are assigned automatically
+    by the service layer using the logged-in user.
+    """
+
     class Meta:
         model = RepairRequest
         fields = [
-            "dwelling",
-            "tenant",
+            "title",
+            "description",
+            "category",
+            "priority",
+        ]
+        widgets = {
+            "description": forms.Textarea(attrs={"rows": 4}),
+        }
+
+
+class StaffRepairRequestUpdateForm(forms.ModelForm):
+    """
+    Form used by maintenance staff or housing managers
+    when updating repair request details and status.
+    """
+
+    class Meta:
+        model = RepairRequest
+        fields = [
             "title",
             "description",
             "category",
@@ -21,23 +44,19 @@ class RepairRequestForm(forms.ModelForm):
             "description": forms.Textarea(attrs={"rows": 4}),
         }
 
-    def clean(self):
-        cleaned_data = super().clean()
-        dwelling = cleaned_data.get("dwelling")
-        tenant = cleaned_data.get("tenant")
-
-        if tenant and dwelling and tenant.dwelling != dwelling:
-            raise forms.ValidationError(
-                "Selected tenant does not belong to the selected dwelling."
-            )
-
-        return cleaned_data
-
 
 class MaintenanceUpdateForm(forms.ModelForm):
+    """
+    Form used to add maintenance updates.
+    updated_by is assigned automatically from the logged-in user.
+    """
+
     class Meta:
         model = MaintenanceUpdate
-        fields = ["note", "status_snapshot", "updated_by"]
+        fields = [
+            "note",
+            "status_snapshot",
+        ]
         widgets = {
             "note": forms.Textarea(attrs={"rows": 4}),
         }
