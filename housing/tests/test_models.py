@@ -82,8 +82,8 @@ class RepairRequestModelTests(TestCase):
         urgent_repair = RepairRequest.objects.create(
             dwelling=self.dwelling,
             tenant=self.tenant,
-            title="Urgent Roof Leak",
-            description="Water leaking from roof.",
+            title="Urgent Ceiling Leak",
+            description="Water dripping from ceiling.",
             category="roofing",
             priority="urgent",
             status="reported"
