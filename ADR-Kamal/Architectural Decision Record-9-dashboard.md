@@ -107,3 +107,19 @@ Future tests should verify:
 This decision directly responds to Assessment 2 feedback.
 
 Instead of only using basic filtering inside views, Assessment 4 introduces reusable aggregation helpers to support dashboard features, authenticated workflows and stronger QuerySet reasoning.
+
+## Final Assessment 4 Update
+
+A custom `RepairRequestQuerySet` was added to support reusable repair workflow queries such as:
+
+- open repairs
+- urgent repairs
+- completed repairs
+- in-progress repairs
+- status summaries
+- priority summaries
+- community summaries
+
+The dashboard service now uses these QuerySet methods instead of repeating query logic inside views. This directly responds to Assessment 2 feedback about stronger QuerySet composition and aggregation.
+
+This also improves feature depth because the application can now support staff and manager decision-making through repair summaries instead of only displaying a simple repair list.

@@ -118,3 +118,18 @@ Future tests should verify:
 This decision extends the Assessment 2 architecture rather than replacing it.
 
 Assessment 2 established the Django MVT foundation. Assessment 4 adds a service layer because the application now needs stronger workflow separation, authentication-aware logic and meaningful testing.
+
+## Final Assessment 4 Update
+
+The service layer was expanded after lecturer feedback that the application needed more meaningful workflow depth.
+
+The final service structure includes:
+
+- `repair_request_service.py` for tenant-aware repair creation and repair visibility
+- `permission_service.py` for role-based workflow checks
+- `dashboard_service.py` for repair summaries and aggregation logic
+- `maintenance_service.py` for staff maintenance updates and repair lifecycle changes
+
+The maintenance workflow now uses `transaction.atomic` so the repair status update and maintenance update record are saved as one safe operation. If one part of the workflow fails, Django rolls back the full operation to prevent inconsistent repair data.
+
+This improves the application from a basic CRUD repair system into a more realistic housing repair-management workflow where tenants submit repair requests, staff update progress and managers/staff can view repair summaries.

@@ -112,3 +112,9 @@ This decision extends the Assessment 2 architecture rather than replacing it.
 Assessment 2 focused on basic Django model, form and view functionality. Assessment 4 requires a more mature architecture with authentication, permissions, service-layer logic and testable workflow behaviour.
 
 Adding domain exceptions improved the separation between workflow logic and presentation logic while preparing the application for more meaningful automated testing.
+
+## Final Assessment 4 Update
+
+The custom exception classes are now connected to the service-layer workflow. The service layer uses these exceptions to represent repair workflow problems such as missing tenant profiles, invalid repair statuses and unauthorised repair updates.
+
+The views catch these domain exceptions and display user-friendly Django messages instead of allowing unhandled server errors. This supports a safer and more testable repair workflow.
