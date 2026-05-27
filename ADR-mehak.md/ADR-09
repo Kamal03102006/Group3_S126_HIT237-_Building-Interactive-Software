@@ -1,0 +1,167 @@
+ADR-09: Tenant Ownership and Role-Based Authorization Extension
+
+Date
+26 May 2026
+
+Status
+Accepted
+
+Related ADRs:
+- ADR-05: Authentication System Design
+- ADR-06: Role-Based Access Control
+- ADR-07: Permission Enforcement
+
+Context
+
+ADR-05 introduced authentication features including login, logout, registration, session authentication, and protected access using LoginRequiredMixin.
+
+Although authentication was implemented successfully, the application still had an important limitation. Logged-in users were not linked to tenant records, meaning the system could not determine which user belonged to which tenant.
+
+As a result:
+
+- tenant ownership filtering was not possible
+- repair requests could not be restricted per user
+- user actions were not linked to domain entities
+- future object-level permissions could not be supported
+- role hierarchy only supported Maintenance Staff
+
+To satisfy Assessment 4 authentication and authorization requirements, the authentication architecture needed to be extended into tenant ownership and role-based authorization.
+
+Problem
+
+Without tenant ownership:
+
+- users could log in but remained disconnected from tenant records
+- repair information could not be filtered by logged-in user
+- permission boundaries were incomplete
+- service layer integration for tenant filtering was not possible
+- repair workflows did not fully reflect real housing operations
+
+Alternatives Considered
+
+Option 1: Keep authentication only
+
+Advantages:
+- simple implementation
+- no model changes required
+- minimal configuration
+
+Disadvantages:
+- no tenant ownership
+- users disconnected from domain entities
+- no object-level permission support
+- limited authorization architecture
+
+
+Option 2: Store tenant information inside sessions
+
+Advantages:
+- easy implementation
+- avoids model changes
+
+Disadvantages:
+- duplicated information
+- weak relational integrity
+- difficult maintenance
+- poor scalability
+
+
+Option 3: Link Tenant to Django User and extend role hierarchy
+
+Advantages:
+- supports tenant ownership
+- enables permission filtering
+- aligns users with repair records
+- supports future object-level permissions
+- reflects real repair workflow
+
+Disadvantages:
+- migration changes required
+- additional admin setup required
+
+Decision
+
+The system was extended by linking Tenant with Django User through OneToOneField:
+
+user = models.OneToOneField(
+    User,
+    on_delete=models.CASCADE,
+    related_name="tenant_profile",
+    null=True,
+    blank=True
+)
+
+This creates a direct relationship between authentication accounts and domain tenants.
+
+The role hierarchy was also expanded:
+
+1. Tenant
+- create repair requests
+- view own repair information
+
+2. Maintenance Staff
+- update repairs
+- create maintenance updates
+
+3. Housing Manager
+- manage repair workflow
+- access broader repair management functions
+
+MaintenanceStaffRequiredMixin was extended to support:
+
+- Maintenance Staff group
+- Housing Manager group
+- Django staff users
+
+using:
+
+user.groups.filter(
+    name__in=[
+        "Maintenance Staff",
+        "Housing Manager"
+    ]
+).exists()
+
+RepairRequest.get_absolute_url() was also updated to use:
+
+repairrequest-detail
+
+to maintain consistency with application routing.
+
+This decision establishes the foundation for tenant-specific filtering and future object-level permission enforcement.
+
+Code References
+
+housing/models.py
+- Tenant.user OneToOneField
+- RepairRequest.get_absolute_url()
+
+housing/views.py
+- MaintenanceStaffRequiredMixin
+- LoginRequiredMixin implementation
+
+housing/admin.py
+- Tenant administration configuration
+
+Django Admin
+- Groups:
+   • Tenant
+   • Maintenance Staff
+   • Housing Manager
+
+Consequences
+
+Positive:
+- tenant ownership supported
+- stronger authorization model
+- future object-level permissions enabled
+- role hierarchy improved
+- supports HD authentication requirements
+- supports tenant filtering in service layer
+- better alignment with real housing workflow
+
+Negative:
+- additional migrations required
+- extra admin configuration
+- user-tenant linking required
+- more permission management complexity

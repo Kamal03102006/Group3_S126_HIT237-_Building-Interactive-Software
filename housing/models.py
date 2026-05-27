@@ -1,5 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
+from django.urls import reverse
 
 
 class Community(models.Model):
@@ -10,7 +12,8 @@ class Community(models.Model):
 
     def __str__(self):
         return self.name
-    class Meta: 
+
+    class Meta:
         verbose_name_plural = "Communities"
 
 
@@ -40,8 +43,21 @@ class Dwelling(models.Model):
     def __str__(self):
         return f"{self.house_code} - {self.address}"
 
+    def active_repair_count(self):
+        return self.repair_requests.exclude(
+            status__in=["completed", "cancelled"]
+        ).count()
+
 
 class Tenant(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="tenant_profile",
+        null=True,
+        blank=True
+    )
+
     dwelling = models.ForeignKey(
         Dwelling,
         on_delete=models.CASCADE,
@@ -96,16 +112,34 @@ class RepairRequest(models.Model):
     )
     title = models.CharField(max_length=150)
     description = models.TextField()
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
-    priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default="medium")
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="reported")
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES
+    )
+    priority = models.CharField(
+        max_length=20,
+        choices=PRIORITY_CHOICES,
+        default="medium"
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="reported"
+    )
     reported_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
+
     class Meta:
         ordering = ["-reported_at"]
+
+    def get_absolute_url(self):
+        return reverse("repairrequest-detail", kwargs={"pk": self.pk})
+
+    def is_open(self):
+        return self.status not in ["completed", "cancelled"]
 
 
 class MaintenanceUpdate(models.Model):
@@ -124,5 +158,6 @@ class MaintenanceUpdate(models.Model):
 
     def __str__(self):
         return f"Update for {self.repair_request.title}"
+
     class Meta:
         ordering = ["-created_at"]

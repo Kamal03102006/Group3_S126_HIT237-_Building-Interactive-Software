@@ -1,12 +1,68 @@
 from django.contrib import messages
-from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
-from .forms import RepairRequestForm, MaintenanceUpdateForm
+from .forms import RepairRequestForm, MaintenanceUpdateForm, RegisterForm
 from .models import RepairRequest, MaintenanceUpdate
 
 
-class RepairRequestListView(ListView):
+class UserLoginView(LoginView):
+    template_name = "housing/registration/login.html"
+
+
+class UserLogoutView(LogoutView):
+    pass
+
+
+class RegisterView(CreateView):
+    form_class = RegisterForm
+    template_name = "housing/registration/register.html"
+    success_url = reverse_lazy("login")
+
+    def form_valid(self, form):
+        messages.success(
+            self.request,
+            "Account created successfully. You can now log in."
+        )
+        return super().form_valid(form)
+
+
+class MaintenanceStaffRequiredMixin(UserPassesTestMixin):
+    """
+    Allows access to Maintenance Staff , Housing Manager, or Django staff users.
+    Role design:
+    - Tenant: can create and view repair requests
+    - Maintenance Staff: can view and update repair requests, add maintenance updates
+    - Housing Manager: can manage reair workflow
+    - Admin/Staff: can manage everything through Django admin interface
+    """
+
+    def test_func(self):
+        user = self.request.user
+        return (
+            user.is_authenticated
+            and (
+                user.is_staff
+                or user.groups.filter(
+                    name__in=["Maintenance Staff", "Housing Manager"]
+                ).exists()
+            )
+        )
+
+
+class AdminRequiredMixin(UserPassesTestMixin):
+    """
+    Allows access only to admin/staff users.
+    """
+
+    def test_func(self):
+        user = self.request.user
+        return user.is_authenticated and user.is_staff
+
+
+class RepairRequestListView(LoginRequiredMixin, ListView):
     model = RepairRequest
     template_name = "housing/repairrequest_list.html"
     context_object_name = "repair_requests"
@@ -38,7 +94,7 @@ class RepairRequestListView(ListView):
         return context
 
 
-class RepairRequestDetailView(DetailView):
+class RepairRequestDetailView(LoginRequiredMixin, DetailView):
     model = RepairRequest
     template_name = "housing/repairrequest_detail.html"
     context_object_name = "repair_request"
@@ -51,7 +107,7 @@ class RepairRequestDetailView(DetailView):
         )
 
 
-class RepairRequestCreateView(CreateView):
+class RepairRequestCreateView(LoginRequiredMixin, CreateView):
     model = RepairRequest
     form_class = RepairRequestForm
     template_name = "housing/repairrequest_form.html"
@@ -61,7 +117,11 @@ class RepairRequestCreateView(CreateView):
         return super().form_valid(form)
 
 
-class RepairRequestUpdateView(UpdateView):
+class RepairRequestUpdateView(
+    LoginRequiredMixin,
+    MaintenanceStaffRequiredMixin,
+    UpdateView
+):
     model = RepairRequest
     form_class = RepairRequestForm
     template_name = "housing/repairrequest_form.html"
@@ -71,7 +131,11 @@ class RepairRequestUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class MaintenanceUpdateCreateView(CreateView):
+class MaintenanceUpdateCreateView(
+    LoginRequiredMixin,
+    MaintenanceStaffRequiredMixin,
+    CreateView
+):
     model = MaintenanceUpdate
     form_class = MaintenanceUpdateForm
     template_name = "housing/maintenanceupdate_form.html"

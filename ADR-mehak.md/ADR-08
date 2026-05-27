@@ -1,0 +1,114 @@
+ADR-08: Security Middleware and Session Architecture
+
+Date
+20 May 2026
+
+Status
+Accepted
+
+Related ADRs
+- ADR-05: Authentication System Design
+- ADR-06: Permission Boundary and Access Control
+- ADR-07: User Registration and Validation Strategy
+
+Context
+Authentication and permissions depend on Django’s middleware and session architecture. The system needed to maintain logged-in users across requests, protect form submissions, and provide user feedback after actions such as login, logout, registration, and repair request submission.
+
+Assessment 4 requires the ADR to trace design decisions across models, views, and middleware. Therefore, the security middleware configuration was documented as part of the authentication architecture.
+
+Problem
+Without proper middleware and session support:
+- users would not remain logged in between requests
+- `request.user` would not be available in views/templates
+- CSRF protection would be weakened
+- form submissions could be less secure
+- messages would not display after actions
+- permission mixins would not work correctly
+
+Alternatives Considered
+
+Option 1: Minimal middleware only
+This would reduce configuration but would break important Django features such as sessions, messages, authentication, and CSRF protection.
+
+Option 2: Custom session handling
+This would create unnecessary security risk and duplicate Django functionality.
+
+Option 3: Use Django’s standard middleware stack
+Django’s middleware already provides secure and tested support for sessions, authentication, CSRF protection, and messages.
+
+Decision
+We used Django’s standard middleware architecture.
+
+Important middleware includes:
+- `SessionMiddleware`
+- `AuthenticationMiddleware`
+- `CsrfViewMiddleware`
+- `MessageMiddleware`
+
+These middleware components support authentication, permissions, form security, and feedback messages.
+
+Code References
+- `config/settings.py`
+  - `MIDDLEWARE`
+  - `INSTALLED_APPS`
+  - `LOGIN_URL`
+  - `LOGIN_REDIRECT_URL`
+  - `LOGOUT_REDIRECT_URL`
+- `housing/views.py`
+  - authentication views
+  - permission mixins
+  - messages framework
+- `housing/templates/housing/base.html`
+  - user authentication display
+  - messages display
+  - CSRF logout form
+
+Security Reasoning
+
+SessionMiddleware
+Allows Django to remember authenticated users across requests.
+
+AuthenticationMiddleware
+Adds `request.user`, allowing views and templates to check authentication and permissions.
+
+CsrfViewMiddleware
+Protects POST forms such as login, registration, repair submission, and logout.
+
+MessageMiddleware
+Allows success and error messages to be shown after important user actions.
+
+Threat-Informed Design Thinking
+This design reduces risks such as:
+- CSRF attacks on form submissions
+- session inconsistency
+- anonymous users accessing protected views
+- poor user feedback after security-related actions
+- unsafe logout behaviour
+
+Using POST for logout with CSRF protection is safer than using a plain GET logout link.
+
+Consequences
+
+Positive
+- secure session handling
+- CSRF protection for forms
+- supports permission mixins
+- supports authenticated templates
+- improves user feedback
+- follows Django conventions
+
+Negative
+- depends on correct middleware order
+- developers must remember to include CSRF tokens in forms
+- session-based authentication is best suited for web apps, not external API clients
+
+Testing Strategy
+Security/session tests should verify:
+- logged-in sessions persist
+- logout clears the session
+- protected views redirect anonymous users
+- POST forms include CSRF tokens
+- messages display after successful actions
+
+Final Outcome
+The security middleware and session architecture provides the foundation for authentication and authorisation. This supports Assessment 4’s requirement for mature authentication design and demonstrates security-aware architectural reasoning.
