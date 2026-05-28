@@ -1,4 +1,4 @@
-# 🏠 Housing Repair Management System
+# Housing Repair Management System
 
 > A Django web application for managing housing repair requests across community dwellings.
 > Developed by Group 3 — HIT237 Building Interactive Software (Assessment 2 → Assessment 4).
@@ -44,13 +44,13 @@ The Housing Repair Management System allows tenants to submit repair requests fo
 
 | Feature | Assessment 2 | Assessment 4 |
 |---|---|---|
-| Models | ✅ Dwelling, Tenant, RepairRequest | ✅ Extended with User ↔ Tenant (1:1) |
-| Authentication | ❌ Not implemented | ✅ Login/logout, role-based groups |
-| Service Layer | ❌ Logic mixed into views | ✅ Dedicated service modules |
-| Exception Handling | ❌ Minimal | ✅ Custom domain exceptions |
-| Testing | ❌ Not implemented | ✅ Models, services, views, permissions |
-| ADR | ADR-01, 02, 03 | ✅ Updated with new entries, superseded entries marked |
-| Diagrams | Basic ERD | ✅ Updated ERD, class diagram, sequence diagrams |
+| Models |  Dwelling, Tenant, RepairRequest |  Extended with User ↔ Tenant (1:1) |
+| Authentication |  Not implemented |  Login/logout, role-based groups |
+| Service Layer |  Logic mixed into views |  Dedicated service modules |
+| Exception Handling |  Minimal |  Custom domain exceptions |
+| Testing |  Not implemented |  Models, services, views, permissions |
+| ADR | ADR-01, 02, 03 |  Updated with new entries, superseded entries marked |
+| Diagrams | Basic ERD |  Updated ERD, class diagram, sequence diagrams |
 
 ---
 
@@ -169,7 +169,7 @@ Roles are managed via Django groups. Each user is assigned to one group on accou
 
 ## Demo Accounts
 
-> ⚠️ For development and assessment demonstration only.
+>  For development and assessment demonstration only.
 
 | Role | Username | Password |
 |---|---|---|
